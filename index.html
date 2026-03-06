@@ -59,105 +59,217 @@
                 id: "feasibility",
                 title: "Feasibility",
                 type: "design",
-                definition: "The extent to which a new treatment can be successfully used or carried out within a given setting.",
-                stakeholders: ["Technical Experts", "Future Implementers", "Future Users (Clinicians)"],
-                topics: ["Practical capability", "Resource availability", "Training/Skill sufficiency", "Competing demands", "Ease of execution"],
+                definition: "The extent to which a new treatment, or an innovation, can be successfully used or carried out within a given agency or setting.",
+                stakeholders: [
+                    "Technical experts", 
+                    "Future implementers (implementation support)", 
+                    "Future users (e.g., clinicians)"
+                ],
+                topics: [
+                    "Practical capability for carrying out the design",
+                    "Resource availability (time, staffing, equipment, infrastructure)",
+                    "Training and skill sufficiency",
+                    "Competing demands and capacity constraints",
+                    "Ease or difficulty of execution in routine practice",
+                    "Perceived implementation burden"
+                ],
                 strategies: [
-                    { name: "Survey (FIM)", url: "https://doi.org/10.1186/s13012-015-0242-z" },
-                    { name: "Survey (Readiness)", url: "https://doi.org/10.1186/1748-5908-9-7" },
-                    { name: "Semi-structured Interview", url: "https://doi.org/10.1186/1748-5908-6-32" },
+                    { name: "Survey: Feasibility of Intervention Measure (FIM)", url: "https://doi.org/10.1186/s13012-017-0635-3" },
+                    { name: "Survey: Readiness Thinking Tool", url: "https://doi.org/10.1177/15248399221080096" },
+                    { name: "Observation Guide: Readiness Thinking Tool", url: "https://doi.org/10.1177/15248399221080096" }
                 ],
             },
             {
                 id: "acceptability",
                 title: "Acceptability",
                 type: "design",
-                definition: "The perception that a given innovation is agreeable, palatable, or satisfactory.",
-                stakeholders: ["Technical Experts", "Subject Matter Experts", "Future Implementers", "Future Users", "Future Beneficiaries"],
-                topics: ["Overall satisfaction", "Emotional reactions", "Perceived comfort", "Alignment with preferences", "Complexity/Simplicity"],
+                definition: "The perception among implementation stakeholders that a given treatment, service, practice, or innovation is agreeable, palatable, or satisfactory.",
+                stakeholders: [
+                    "Technical experts", 
+                    "Subject matter experts (SMEs)", 
+                    "Future implementers", 
+                    "Future users (e.g., clinicians)",
+                    "Future beneficiaries (e.g., patients)"
+                ],
+                topics: [
+                    "Overall satisfaction",
+                    "Emotional reactions",
+                    "Perceived comfort",
+                    "Alignment with personal preferences",
+                    "Willingness for engagement",
+                    "Perceived advantages",
+                    "Trust and confidence"
+                ],
                 strategies: [
-                    { name: "Survey (AIM)", url: "https://doi.org/10.1186/s13012-015-0242-z" },
-                    { name: "Survey (TAM)", url: "https://doi.org/10.1177/0013164498058004003" },
-                    { name: "Semi-structured Interview", url: "https://doi.org/10.1186/s43058-022-00380-5" },
+                    { name: "Survey: Acceptability of Intervention Measure (AIM)", url: "https://doi.org/10.1186/s13012-017-0635-3" },
+                    { name: "Survey: Technology Acceptance Model (TAM)", url: "https://doi.org/10.1055/s-0038-1668091" }
                 ],
             },
             {
                 id: "appropriateness",
                 title: "Appropriateness",
                 type: "design",
-                definition: "The perceived fit, relevance, or compatibility of the innovation for a given setting or problem.",
-                stakeholders: ["Technical Experts", "Subject Matter Experts", "Future Implementers", "Future Users", "Future Beneficiaries"],
-                topics: ["Compatibility with current practices", "Cultural/Ethical fit", "Problem-solution alignment", "Relative advantage"],
+                definition: "The perceived fit, relevance, or compatibility of the innovation for a given practice setting, provider, or consumer; and/or perceived fit to address a particular issue.",
+                stakeholders: [
+                    "Subject matter experts (SMEs)", 
+                    "Future implementers", 
+                    "Future users (e.g., clinicians)",
+                    "Future beneficiaries (e.g., patients)"
+                ],
+                topics: [
+                    "Relevance to the clinical problem or population",
+                    "Compatibility with organizational missions or values",
+                    "Fit within existing clinical models or standards of care",
+                    "Perceived effectiveness for addressing the targeted issue",
+                    "Suitability for the local practice environment",
+                    "Congruence with stakeholder expectations",
+                    "Perceived necessity for the problem at hand"
+                ],
                 strategies: [
-                    { name: "Survey (IAM)", url: "https://doi.org/10.1186/s13012-015-0242-z" },
-                    { name: "Semi-structured Interview", url: "https://doi.org/10.1186/s13012-015-0242-z" },
+                    { name: "Survey: Intervention Appropriateness Measure (IAM)", url: "https://doi.org/10.1186/s13012-017-0635-3" }
                 ],
                 altEvidence: [
-                    { name: "Think Aloud (pCAT)", icon: "search", url: "https://doi.org/10.1186/s43058-022-00380-5" },
+                    { name: "Field Observation: Pre-PRO integration framework", icon: "eye", url: "https://doi.org/10.1186/s43058-026-00859-5" },
                 ],
             },
             {
                 id: "adoption",
                 title: "Adoption",
                 type: "transitionary",
-                definition: "The intention, initial decision, or action to try or employ an innovation.",
-                stakeholders: ["Clinical Leadership", "Administrative Leadership", "Future Implementers", "Financial Decision-makers"],
-                topics: ["Initial buy-in", "Incentives for use", "Decision-making authority", "Facilitators for uptake"],
+                definition: "The intention, initial decision, or action to try or employ an innovation or evidence-based practice.",
+                stakeholders: [
+                    "Future users (e.g., clinicians)", 
+                    "Future beneficiaries (e.g., patients)", 
+                    "Organizational decision-makers (procurement)",
+                    "Financial decision-makers (budget officers)"
+                ],
+                topics: [
+                    "Perceived relative advantage of the intervention",
+                    "Compatibility with current workflow",
+                    "Perceived complexity or burden",
+                    "Resource requirements",
+                    "Organizational readiness",
+                    "Social and professional norms",
+                    "Conditions for approval or rejection",
+                    "Willingness to trial the intervention"
+                ],
                 strategies: [
-                    { name: "Survey (Organizational Readiness)", url: "https://doi.org/10.1186/1748-5908-4-67" },
-                    { name: "Semi-structured Interview", url: "https://doi.org/10.1007/s10488-010-0319-7" },
+                    { name: "Survey: Multi-level forecasting measures", url: "https://doi.org/10.1007/s10488-014-0551-7" }
                 ],
             },
             {
                 id: "implementation_cost",
                 title: "Implementation Cost",
                 type: "strategy",
-                definition: "The financial impact and resource requirements of the delivery of an innovation.",
-                stakeholders: ["Administrative Leadership", "Financial Decision-makers", "Future Implementers", "IT Support Teams"],
-                topics: ["Initial setup costs", "Staff time/effort", "Infrastructure upgrades", "Ongoing maintenance costs"],
+                definition: "The cost impact of an implementation effort... depends upon the costs of the particular intervention, the strategy used, and the location of service delivery.",
+                stakeholders: [
+                    "Organizational-level decision-makers", 
+                    "Management team (unit managers)", 
+                    "Front-line users (clinicians, nurses)",
+                    "Future beneficiaries (patients)",
+                    "Policy/economic environment stakeholders"
+                ],
+                topics: [
+                    "Expected workflow changes",
+                    "Training burden and frequency",
+                    "Required staffing shifts",
+                    "IT/Infrastructure changes",
+                    "Maintenance requirements",
+                    "Competing initiatives",
+                    "Opportunity cost"
+                ],
                 strategies: [
-                    { name: "Semi-structured Interview", url: "https://doi.org/10.1186/s13012-020-00983-3" },
+                    { name: "Local-level economic evaluation framework", url: "https://doi.org/10.1017/S0266462323002775" },
+                    { name: "Survey: Stage-Based Cost Projection (SIC/COINS)", url: "https://doi.org/10.1016/j.childyouth.2013.10.006" }
                 ],
                 altEvidence: [
-                    { name: "Document Evidence Review (Budget/FTE)", icon: "file-text", url: "#" },
+                    { name: "Document Evidence Review (Budgets, Wage scales, FTE maps)", icon: "file-text", url: "#" },
                 ],
             },
             {
                 id: "fidelity",
                 title: "Fidelity",
                 type: "strategy",
-                definition: "The degree to which an innovation is implemented as it was prescribed in the original protocol.",
-                stakeholders: ["Technical Experts", "Subject Matter Experts", "Future Implementers", "Clinical Educators"],
-                topics: ["Adherence to core components", "Dosage/Frequency", "Quality of delivery", "Adaptation vs. Deviation"],
+                definition: "The degree to which an intervention was implemented as it was prescribed in the original protocol or as intended by developers.",
+                stakeholders: [
+                    "Senior leadership (Exec sponsors, CMO)", 
+                    "Mid-level operational managers (Quality directors)", 
+                    "Front-line users (clinicians, nurses)",
+                    "Future beneficiaries (patients)"
+                ],
+                topics: [
+                    "Adherence to core components",
+                    "Dose and reach",
+                    "Adaptations and modifications",
+                    "Barriers to protocol adherence",
+                    "Delivery expectations",
+                    "Differentiation from existing practice"
+                ],
                 strategies: [
-                    { name: "Semi-structured Interview", url: "https://doi.org/10.1016/S0005-7894(05)80049-8" },
+                    { name: "Survey: IPS Fidelity Scales", url: "https://doi.org/10.1176/appi.ps.201100476" }
                 ],
                 altEvidence: [
-                    { name: "Field Observation / Checklist", icon: "eye", url: "#" },
+                    { name: "Field Observation: Fidelity Rating System (FIMP)", icon: "eye", url: "https://doi.org/10.1016/S0005-7894(05)80049-8" },
                 ],
             },
             {
                 id: "penetration",
                 title: "Penetration",
                 type: "strategy",
-                definition: "The integration of a practice within a service setting and its subsystems.",
-                stakeholders: ["Senior Leadership", "Departmental Managers", "Data/Quality Officers", "Clinical Staff"],
-                topics: ["Reach across departments", "Embeddedness in workflows", "Number of users trained vs. active"],
+                definition: "The integration of a practice within a service setting and its subsystems, intrinsically linked to context.",
+                stakeholders: [
+                    "Senior leadership (Service line directors)", 
+                    "Mid-level operational managers", 
+                    "Financial decision-makers",
+                    "Clinical leadership (Governance leads)",
+                    "Infrastructure personnel (IT, Informatics, EMR)",
+                    "Front-line users"
+                ],
+                topics: [
+                    "Barriers and facilitators",
+                    "Contextual conditions",
+                    "Equity considerations",
+                    "Implementation infrastructure",
+                    "Interdepartmental coordination",
+                    "Sustainment factors",
+                    "Policy alignment and misalignment"
+                ],
                 strategies: [
-                    { name: "Survey (NoMAD)", url: "https://doi.org/10.1186/s12874-018-0590-y" },
-                    { name: "Semi-structured Interview", url: "https://doi.org/10.1186/s12913-018-3226-4" },
+                    { name: "Survey: NoMAD Questionnaire", url: "https://doi.org/10.1186/s12874-018-0590-y" },
+                    { name: "Survey: Pragmatic Context Assessment Tool (pCAT)", url: "https://doi.org/10.1186/s43058-022-00380-5" }
+                ],
+                altEvidence: [
+                    { name: "Interview Coding Guide: NPT Guide", icon: "code", url: "https://doi.org/10.1186/1748-5908-8-43" },
                 ],
             },
             {
                 id: "sustainability",
                 title: "Sustainability",
                 type: "strategy",
-                definition: "The extent to which a newly implemented treatment is maintained within stable operations.",
-                stakeholders: ["Senior Leadership", "Financial Decision-makers", "Clinical Leadership", "IT Support Teams"],
-                topics: ["Strategic alignment", "Financial institutionalization", "Role formalization", "Maintenance continuity"],
+                definition: "The extent to which a newly implemented treatment is maintained or institutionalized within ongoing, stable operations.",
+                stakeholders: [
+                    "Senior leadership", 
+                    "Mid-level operational managers", 
+                    "Financial decision-makers",
+                    "Clinical leadership",
+                    "Implementation infrastructure personnel (IT/Data)",
+                    "Front-line users"
+                ],
+                topics: [
+                    "Strategic alignment",
+                    "Financial institutionalization",
+                    "Role formalization",
+                    "Infrastructure & data systems",
+                    "Staffing continuity",
+                    "Training and knowledge transfer",
+                    "Adaptability of the intervention",
+                    "Maintenance and leadership continuity"
+                ],
                 strategies: [
-                    { name: "Survey (PRISM)", url: "https://doi.org/10.1186/s13012-019-0935-2" },
-                    { name: "Semi-structured Interview", url: "https://doi.org/10.1186/s13012-015-0280-6" },
+                    { name: "Survey: PRISM Infrastructure Assessment", url: "https://doi.org/10.1016/S1553-7250(08)34030-6" }
+                ],
+                altEvidence: [
+                    { name: "Document Evidence Review (SOPs, Policy drafts, Staffing plans)", icon: "file-text", url: "#" },
                 ],
             },
         ];
@@ -242,7 +354,7 @@
                                         />
                                     )}
                                 </div>
-                                <p className="text-sm text-gray-600 mt-1 line-clamp-2 leading-relaxed">
+                                <p className="text-sm text-gray-600 mt-1 line-clamp-2 leading-relaxed italic">
                                     {outcome.definition}
                                 </p>
                                 <div className="flex items-center gap-2 mt-4">
@@ -264,7 +376,7 @@
                 <div className="space-y-6 animate-in">
                     <div>
                         <h2 className="text-2xl font-bold">Stakeholders Required to Evaluate</h2>
-                        <p className="text-gray-600">Gather perspectives from key stakeholder groups:</p>
+                        <p className="text-gray-600">Gather perspectives from key stakeholder groups identified in the framework:</p>
                     </div>
                     <div className="space-y-4">
                         {getSelectedData().map((outcome) => (
@@ -293,7 +405,7 @@
                                         {outcome.stakeholders.length} Roles Required
                                     </span>
                                 </div>
-                                <div className="divide-y divide-gray-100">
+                                <div className="divide-y divide-gray-100 grid grid-cols-1 md:grid-cols-2">
                                     {outcome.stakeholders.map((s, idx) => (
                                         <div key={idx} className="p-3 flex items-center gap-3 text-sm font-medium text-gray-700 bg-white">
                                             <div className={`w-1.5 h-1.5 rounded-full ${
@@ -315,7 +427,7 @@
                     <div className="flex justify-between items-center print:hidden">
                         <div>
                             <h2 className="text-2xl font-bold">Evaluation Kit</h2>
-                            <p className="text-sm text-gray-500">Resource guide and protocols for your selected implementation focus.</p>
+                            <p className="text-sm text-gray-500">Resource guide and protocols mapping all PDF topics to digital resources.</p>
                         </div>
                         <button onClick={() => window.print()} className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-700 flex items-center gap-2 shadow-sm transition-colors">
                             <Icon name="file-text" size={16} /> Print/Export PDF
@@ -324,7 +436,7 @@
 
                     <div className="hidden print:block mb-8 border-b-2 border-gray-900 pb-4">
                         <h1 className="text-3xl font-black">Implementation Evaluation Protocols</h1>
-                        <p className="text-gray-600 mt-1">Generated Mid-Design Framework Resource</p>
+                        <p className="text-gray-600 mt-1">Full Content Mapping: Mid-Design Framework (V1.0 IRB-Ready)</p>
                     </div>
 
                     {getSelectedData().map((outcome) => (
@@ -349,17 +461,17 @@
                                 </span>
                             </div>
 
-                            <div className="p-6 grid grid-cols-1 md:grid-cols-4 gap-8">
-                                <div className="md:col-span-1">
+                            <div className="p-6 grid grid-cols-1 md:grid-cols-12 gap-8">
+                                <div className="md:col-span-3">
                                     <h4 className={`text-[10px] font-black uppercase tracking-widest mb-3 flex items-center gap-1 ${
                                         outcome.type === "design" ? "text-emerald-700" : 
                                         outcome.type === "transitionary" ? "text-purple-700" : "text-slate-700"
                                     }`}>
-                                        <Icon name="users" size={12} /> Stakeholders Required
+                                        <Icon name="users" size={12} /> Stakeholders
                                     </h4>
                                     <div className="space-y-2">
                                         {outcome.stakeholders.map((s, idx) => (
-                                            <div key={idx} className="flex items-start gap-2 text-sm font-bold text-gray-800 leading-tight">
+                                            <div key={idx} className="flex items-start gap-2 text-[13px] font-bold text-gray-800 leading-tight">
                                                 <div className={`min-w-[4px] h-4 rounded-full mt-0.5 ${
                                                     outcome.type === "design" ? "bg-emerald-400" : 
                                                     outcome.type === "transitionary" ? "bg-purple-400" : "bg-slate-400"
@@ -370,9 +482,9 @@
                                     </div>
                                 </div>
 
-                                <div className="md:col-span-1 border-l border-gray-100 pl-0 md:pl-6">
+                                <div className="md:col-span-5 border-l border-gray-100 pl-0 md:pl-6">
                                     <h4 className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-3 flex items-center gap-1">
-                                        <Icon name="help-circle" size={12} /> Interview Topics
+                                        <Icon name="help-circle" size={12} /> Interview Topics (Full List)
                                     </h4>
                                     <ul className="space-y-2">
                                         {outcome.topics.map((t, i) => (
@@ -384,37 +496,36 @@
                                     </ul>
                                 </div>
 
-                                <div className="md:col-span-1 border-l border-gray-100 pl-0 md:pl-6">
+                                <div className="md:col-span-4 border-l border-gray-100 pl-0 md:pl-6">
                                     <h4 className="text-[10px] font-black text-purple-700 uppercase tracking-widest mb-3 flex items-center gap-1">
-                                        <Icon name="clipboard-check" size={12} /> Survey Instrument
+                                        <Icon name="clipboard-check" size={12} /> Evaluation Strategies
                                     </h4>
-                                    <div className="space-y-2">
-                                        {outcome.strategies.map((s, i) => (
-                                            <a key={i} href={s.url} target="_blank" rel="noopener noreferrer" className="bg-purple-50 text-purple-900 p-2 rounded text-[13px] font-medium flex items-center justify-between gap-2 border border-purple-100 hover:bg-purple-100 transition-colors group print:border-none print:p-0 print:bg-transparent">
-                                                <div className="flex items-center gap-2">
-                                                    <Icon name="file-text" size={14} className="opacity-70 print:hidden text-purple-600" /> {s.name}
-                                                </div>
-                                                <Icon name="external-link" size={14} className="opacity-0 group-hover:opacity-100 transition-opacity print:hidden text-purple-400" />
-                                            </a>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <div className="md:col-span-1 border-l border-gray-100 pl-0 md:pl-6">
-                                    <h4 className="text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-3 flex items-center gap-1">
-                                        <Icon name="file-text" size={12} /> Alt Evidence
-                                    </h4>
-                                    {outcome.altEvidence ? (
-                                        <div className="space-y-2">
-                                            {outcome.altEvidence.map((ae, i) => (
-                                                <div key={i} className="bg-indigo-50 text-indigo-900 p-2 rounded text-[13px] font-medium flex items-center gap-2 border border-indigo-100 print:bg-transparent print:p-0 print:border-none">
-                                                    <span className="print:hidden text-indigo-500"><Icon name={ae.icon} size={14} /></span> {ae.name}
-                                                </div>
+                                    <div className="space-y-3">
+                                        <div>
+                                            <p className="text-[10px] font-bold text-gray-400 uppercase mb-2">Instruments</p>
+                                            {outcome.strategies.map((s, i) => (
+                                                <a key={i} href={s.url} target="_blank" rel="noopener noreferrer" className="bg-purple-50 text-purple-900 p-2 rounded text-[12px] font-medium flex items-center justify-between gap-2 border border-purple-100 hover:bg-purple-100 transition-colors group mb-2 print:border-none print:p-0 print:bg-transparent">
+                                                    <div className="flex items-center gap-2">
+                                                        <Icon name="file-text" size={13} className="opacity-70 print:hidden text-purple-600" /> {s.name}
+                                                    </div>
+                                                    <Icon name="external-link" size={13} className="opacity-0 group-hover:opacity-100 transition-opacity print:hidden text-purple-400" />
+                                                </a>
                                             ))}
                                         </div>
-                                    ) : (
-                                        <p className="text-[11px] text-gray-400 italic">No alternative evidence reviews standard for this outcome.</p>
-                                    )}
+                                        {outcome.altEvidence && (
+                                            <div>
+                                                <p className="text-[10px] font-bold text-gray-400 uppercase mb-2">Observation/Reviews</p>
+                                                {outcome.altEvidence.map((ae, i) => (
+                                                    <a key={i} href={ae.url} target="_blank" rel="noopener noreferrer" className="bg-indigo-50 text-indigo-900 p-2 rounded text-[12px] font-medium flex items-center justify-between gap-2 border border-indigo-100 hover:bg-indigo-100 transition-colors group print:bg-transparent print:p-0 print:border-none">
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="print:hidden text-indigo-500"><Icon name={ae.icon} size={13} /></span> {ae.name}
+                                                        </div>
+                                                        {ae.url !== "#" && <Icon name="external-link" size={13} className="opacity-0 group-hover:opacity-100 transition-opacity print:hidden text-indigo-400" />}
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -428,7 +539,7 @@
                         <header className="mb-10 text-center print:hidden">
                             <h1 className="text-3xl font-black tracking-tight text-gray-900 md:text-4xl">Mid-Design Evaluation Tool</h1>
                             <p className="text-gray-500 mt-2 font-medium">
-                                Structured decision-support for implementation outcomes before full-scale rollout. <br />@Chuwen Zheng
+                                Comprehensive Mapping: V1.0 IRB-Ready Implementation Outcomes <br />@Chuwen Zheng
                             </p>
                         </header>
 
@@ -452,14 +563,14 @@
 
                         <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-gray-200 flex justify-center z-20 print:hidden">
                             <div className="max-w-5xl w-full flex justify-between items-center">
-                                <div className="hidden md:block"><p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">IRB-Ready Framework v1.0</p></div>
+                                <div className="hidden md:block"><p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Full-Framework Integrated (V1.0)</p></div>
                                 <div className="flex gap-4 w-full md:w-auto">
                                     {view !== "selection" && (
                                         <button onClick={() => setView(view === "fieldkit" ? "stakeholders" : "selection")} className="flex-1 md:flex-none border border-gray-300 text-gray-700 px-6 py-2 rounded-full font-bold hover:bg-gray-50 transition-colors">Back</button>
                                     )}
                                     {view !== "fieldkit" && (
                                         <button disabled={selectedOutcomes.length === 0} onClick={() => setView(view === "selection" ? "stakeholders" : "fieldkit")} className="flex-1 md:flex-none bg-indigo-600 text-white px-8 py-2 rounded-full flex items-center justify-center gap-2 font-bold disabled:opacity-50 transition-all hover:bg-indigo-700 shadow-lg shadow-indigo-200">
-                                            {view === "selection" ? "View Stakeholders" : "Generate Evaluation Kit"} <Icon name="chevron-right" size={18} />
+                                            {view === "selection" ? "Review Stakeholders" : "Generate Field Kit"} <Icon name="chevron-right" size={18} />
                                         </button>
                                     )}
                                 </div>
