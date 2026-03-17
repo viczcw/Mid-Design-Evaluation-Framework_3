@@ -1,589 +1,788 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mid-Design Evaluation Tool</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mid-Design Evaluation Tool</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
-        @media print {
-            .print\:hidden { display: none !important; }
-            .print\:block { display: block !important; }
-            .print\:border-none { border: none !important; }
-            .print\:p-0 { padding: 0 !important; }
-            .print\:bg-transparent { background: transparent !important; }
-            body { background: white; }
-        }
+    body { font-family: 'Inter', sans-serif; }
 
-        .animate-in {
-            animation: fadeIn 0.5s ease-out;
-        }
+    .animate-in { animation: fadeIn 0.45s ease-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+    .page-break { break-before: page; page-break-before: always; }
+    .avoid-break { break-inside: avoid; page-break-inside: avoid; }
+
+    @media print {
+      @page {
+        size: letter portrait;
+        margin: 0.55in;
+      }
+
+      html, body {
+        background: white !important;
+        color: black !important;
+      }
+
+      .print\:hidden { display: none !important; }
+      .print\:block { display: block !important; }
+      .print\:border-none { border: none !important; }
+      .print\:p-0 { padding: 0 !important; }
+      .print\:bg-transparent { background: transparent !important; }
+      .print\:shadow-none { box-shadow: none !important; }
+      .print\:rounded-none { border-radius: 0 !important; }
+
+      .screen-only { display: none !important; }
+      .print-only { display: block !important; }
+
+      a {
+        color: black !important;
+        text-decoration: none !important;
+      }
+
+      .print-page {
+        min-height: calc(11in - 1.1in);
+        break-after: page;
+        page-break-after: always;
+        box-shadow: none !important;
+      }
+
+      .print-page:last-child {
+        break-after: auto;
+        page-break-after: auto;
+      }
+
+      .print-front-page {
+        min-height: calc(11in - 1.1in);
+        break-after: page;
+        page-break-after: always;
+      }
+
+      .sticky, .fixed { position: static !important; }
+      .overflow-x-auto { overflow: visible !important; }
+      .max-w-6xl, .max-w-5xl { max-width: 100% !important; }
+      .shadow-sm, .shadow-md, .shadow-lg { box-shadow: none !important; }
+      .ring-2, .ring-emerald-100, .ring-purple-100, .ring-slate-100 { box-shadow: none !important; }
+      .bg-gray-50, .bg-white\/80 { background: white !important; }
+      .border-gray-200, .border-emerald-100, .border-purple-100, .border-slate-200 { border-color: #d1d5db !important; }
+      .text-gray-500, .text-gray-600, .text-gray-700 { color: #374151 !important; }
+      .text-emerald-700, .text-purple-700, .text-blue-600, .text-indigo-600 { color: #111827 !important; }
+      .bg-emerald-50, .bg-purple-50, .bg-slate-100, .bg-indigo-50, .bg-purple-50 { background: #fff !important; }
+    }
+
+    .print-only { display: none; }
+  </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
-    <div id="root"></div>
+  <div id="root"></div>
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
+  <script type="text/babel">
+    const { useEffect, useMemo, useRef, useState } = React;
 
-        const Icon = ({ name, size = 18, className = "" }) => {
-            const ref = React.useRef(null);
-            useEffect(() => {
-                if (ref.current) {
-                    lucide.createIcons({
-                        targets: [ref.current]
-                    });
-                }
-            }, [name]);
+    const Icon = ({ name, size = 18, className = "" }) => {
+      const ref = useRef(null);
+      useEffect(() => {
+        if (ref.current) {
+          lucide.createIcons({ targets: [ref.current] });
+        }
+      }, [name]);
+      return <i ref={ref} data-lucide={name} style={{ width: size, height: size }} className={`inline-block ${className}`}></i>;
+    };
 
-            return <i ref={ref} data-lucide={name} style={{ width: size, height: size }} className={`inline-block ${className}`}></i>;
-        };
+    const REFERENCES = [
+      "Bitterman, N. (2011). Design of medical devices—A home perspective. European Journal of Internal Medicine, 22(1), 39–42. https://doi.org/10.1016/j.ejim.2010.09.017",
+      "Chamberlain, P., Brown, C. H., & Saldana, L. (2011). Observational measure of implementation progress in community based settings: The Stages of implementation completion (SIC). Implementation Science, 6(1), 116. https://doi.org/10.1186/1748-5908-6-116",
+      "Chor, K. H. B., Wisdom, J. P., Olin, S.-C. S., Hoagwood, K. E., & Horwitz, S. M. (2015). Measures for Predictors of Innovation Adoption. Administration and Policy in Mental Health and Mental Health Services Research, 42(5), 545–573. https://doi.org/10.1007/s10488-014-0551-7",
+      "Davis, F. D. (1989). Perceived Usefulness, Perceived Ease of Use, and User Acceptance of Information Technology. MIS Quarterly, 13(3), 319–340. https://doi.org/10.2307/249008",
+      "Davis, F. D. (1993). User acceptance of information technology: System characteristics, user perceptions and behavioral impacts. International Journal of Man-Machine Studies, 38(3), 475–487. https://doi.org/10.1006/imms.1993.1022",
+      "Dusenbury, L. (2003). A review of research on fidelity of implementation: Implications for drug abuse prevention in school settings. Health Education Research, 18(2), 237–256. https://doi.org/10.1093/her/18.2.237",
+      "Eisman, A. B., Kilbourne, A. M., Dopp, A. R., Saldana, L., & Eisenberg, D. (2020). Economic evaluation in implementation science: Making the business case for implementation strategies. Psychiatry Research, 283, 112433. https://doi.org/10.1016/j.psychres.2019.06.008",
+      "Eisman, A. B., Quanbeck, A., Bounthavong, M., Panattoni, L., & Glasgow, R. E. (2021). Implementation science issues in understanding, collecting, and using cost estimates: A multi-stakeholder perspective. Implementation Science, 16(1), 75. https://doi.org/10.1186/s13012-021-01143-x",
+      "Feldstein, A. C., & Glasgow, R. E. (2008). A Practical, Robust Implementation and Sustainability Model (PRISM) for Integrating Research Findings into Practice. The Joint Commission Journal on Quality and Patient Safety, 34(4), 228–243. https://doi.org/10.1016/S1553-7250(08)34030-6",
+      "Finch, T. L., Girling, M., May, C. R., Mair, F. S., Murray, E., Treweek, S., McColl, E., Steen, I. N., Cook, C., Vernazza, C. R., Mackintosh, N., Sharma, S., Barbery, G., Steele, J., & Rapley, T. (2018). Improving the normalization of complex interventions: Part 2 - validation of the NoMAD instrument for assessing implementation work based on normalization process theory (NPT). BMC Medical Research Methodology, 18(1), 135. https://doi.org/10.1186/s12874-018-0591-x",
+      "Finch, T. L., Rapley, T., Girling, M., Mair, F. S., Murray, E., Treweek, S., McColl, E., Steen, I. N., & May, C. R. (2013). Improving the normalization of complex interventions: Measure development based on normalization process theory (NoMAD): study protocol. Implementation Science, 8(1), 43. https://doi.org/10.1186/1748-5908-8-43",
+      "Forgatch, M. S., Patterson, G. R., & DeGarmo, D. S. (2005). Evaluating fidelity: Predictive validity for a measure of competent adherence to the oregon model of parent management training. Behavior Therapy, 36(1), 3–13. https://doi.org/10.1016/S0005-7894(05)80049-8",
+      "Glasgow, R. E., & Estabrooks, P. E. (2018). Pragmatic Applications of RE-AIM for Health Care Initiatives in Community and Clinical Settings. Preventing Chronic Disease, 15, 170271. https://doi.org/10.5888/pcd15.170271",
+      "Gray, J., Thynne, T. R., Eaton, V., Reade, B., Larcombe, R., Baldacchino, L., Gehlert, J., Hakendorf, P., Karnon, J., & for the Southern Adelaide Local Health Network’s (SALHN) Hypoglycaemia Clinical Working Group. (2023). A framework for local-level economic evaluation to inform implementation decisions: Health service interventions to prevent hospital-acquired hypoglycemia. International Journal of Technology Assessment in Health Care, 39(1), e74. https://doi.org/10.1017/S0266462323002775",
+      "Grooten, L., Vrijhoef, H. J. M., Calciolari, S., Ortiz, L. G. G., Janečková, M., Minkman, M. M. N., & Devroey, D. (2019). Assessing the maturity of the healthcare system for integrated care: Testing measurement properties of the SCIROCCO tool. BMC Medical Research Methodology, 19(1), 63. https://doi.org/10.1186/s12874-019-0704-1",
+      "Kaur, M. N., Higgins, A., Edelen, M. O., Aschbrenner, K. A., Garstka, M. E., Throckmorton, A., Bea, V., & Pusic, A. L. (2026). Field observation as a method to guide patient-reported outcome measurement integration in community cancer centers. Implementation Science Communications, 7(1), 39. https://doi.org/10.1186/s43058-026-00859-5",
+      "Kenworthy, T., Domlyn, A., Scott, V. C., Schwartz, R., & Wandersman, A. (2023). A Proactive, Systematic Approach to Building the Capacity of Technical Assistance Providers. Health Promotion Practice, 24(3), 546–559. https://doi.org/10.1177/15248399221080096",
+      "Lewis, C. C., Fischer, S., Weiner, B. J., Stanick, C., Kim, M., & Martinez, R. G. (2015). Outcomes for implementation science: An enhanced systematic review of instruments using evidence-based rating criteria. Implementation Science, 10(1), 155. https://doi.org/10.1186/s13012-015-0342-x",
+      "McCreight, M. S., Rabin, B. A., Glasgow, R. E., Ayele, R. A., Leonard, C. A., Gilmartin, H. M., Frank, J. W., Hess, P. L., Burke, R. E., & Battaglia, C. T. (2019). Using the Practical, Robust Implementation and Sustainability Model (PRISM) to qualitatively assess multilevel contextual factors to help plan, implement, evaluate, and disseminate health services programs. Translational Behavioral Medicine, 9(6), 1002–1011. https://doi.org/10.1093/tbm/ibz085",
+      "Palinkas, L. A., & Zatzick, D. (2019). Rapid Assessment Procedure Informed Clinical Ethnography (RAPICE) in Pragmatic Clinical Trials of Mental Health Services Implementation: Methods and Applied Case Study. Administration and Policy in Mental Health and Mental Health Services Research, 46(2), 255–270. https://doi.org/10.1007/s10488-018-0909-3",
+      "Proctor, E., Silmere, H., Raghavan, R., Hovmand, P., Aarons, G., Bunger, A., Griffey, R., & Hensley, M. (2011). Outcomes for Implementation Research: Conceptual Distinctions, Measurement Challenges, and Research Agenda. Administration and Policy in Mental Health and Mental Health Services Research, 38(2), 65–76. https://doi.org/10.1007/s10488-010-0319-7",
+      "Rabin, B. A., Brownson, R. C., Haire-Joshu, D., Kreuter, M. W., & Weaver, N. L. (2008). A Glossary for Dissemination and Implementation Research in Health. Journal of Public Health Management and Practice, 14(2), 117–123. https://doi.org/10.1097/01.PHH.0000311888.06252.bb",
+      "Rahimi, B., Nadri, H., Lotfnezhad Afshar, H., & Timpka, T. (2018). A Systematic Review of the Technology Acceptance Model in Health Informatics. Applied Clinical Informatics, 09(03), 604–634. https://doi.org/10.1055/s-0038-1668091",
+      "Rapley, T., Girling, M., Mair, F. S., Murray, E., Treweek, S., McColl, E., Steen, I. N., May, C. R., & Finch, T. L. (2018). Improving the normalization of complex interventions: Part 1 - development of the NoMAD instrument for assessing implementation work based on normalization process theory (NPT). BMC Medical Research Methodology, 18(1), 133. https://doi.org/10.1186/s12874-018-0590-y",
+      "Robinson, C. H., & Damschroder, L. J. (2023). A pragmatic context assessment tool (pCAT): Using a Think Aloud method to develop an assessment of contextual barriers to change. Implementation Science Communications, 4(1), 3. https://doi.org/10.1186/s43058-022-00380-5",
+      "Saldana, L., Chamberlain, P., Bradford, W. D., Campbell, M., & Landsverk, J. (2014). The cost of implementing new strategies (COINS): A method for mapping implementation resources using the stages of implementation completion. Children and Youth Services Review, 39, 177–182. https://doi.org/10.1016/j.childyouth.2013.10.006",
+      "Staras, S., Tauscher, J. S., Rich, N., Samarah, E., Thompson, L. A., Vinson, M. M., Muszynski, M. J., & Shenkman, E. A. (2021). Using a Clinical Workflow Analysis to Enhance eHealth Implementation Planning: Tutorial and Case Study. JMIR mHealth and uHealth, 9(3), e18534. https://doi.org/10.2196/18534",
+      "Vos-Kerkhof, E. D. (2016). Measuring Acceptability of Clinical Decision Rules Using the Ottawa Acceptability of Decision Rules Instrument (OADRI): A Pediatric Emergency Care Study. International Archives of Nursing and Health Care, 2(2). https://doi.org/10.23937/2469-5823/1510044",
+      "Weiner, B. J., Lewis, C. C., Stanick, C., Powell, B. J., Dorsey, C. N., Clary, A. S., Boynton, M. H., & Halko, H. (2017). Psychometric assessment of three newly developed implementation outcome measures. Implementation Science, 12(1), 108. https://doi.org/10.1186/s13012-017-0635-3"
+    ];
 
-        const FRAMEWORK_DATA = [
-            {
-                id: "feasibility",
-                title: "Feasibility",
-                type: "design",
-                definition: "The extent to which a new treatment, or an innovation, can be successfully used or carried out within a given agency or setting.",
-                stakeholders: [
-                    "Technical experts (i.e., those who can assess the technical feasibility of the intervention)", 
-                    "Future implementers of the intervention (i.e., those who will support eventual implementation)", 
-                    "Future users of the intervention (e.g., clinicians)"
-                ],
-                topics: [
-                    "Practical capability for carrying out the design",
-                    "Resource availability (e.g., time, staffing, equipment, infrastructure)",
-                    "Training and skill sufficiency",
-                    "Competing demands and capacity constraints",
-                    "Ease or difficulty of execution in routine practice",
-                    "Perceived implementation burden"
-                ],
-                strategies: [
-                    { name: "Survey: Feasibility of Intervention Measure (FIM)", url: "https://doi.org/10.1186/s13012-017-0635-3" },
-                    { name: "Survey: Readiness Thinking Tool", url: "https://doi.org/10.1177/15248399221080096" },
-                    { name: "Observation Guide: Readiness Thinking Tool", url: "https://doi.org/10.1177/15248399221080096" }
-                ],
-            },
-            {
-                id: "acceptability",
-                title: "Acceptability",
-                type: "design",
-                definition: "The perception among implementation stakeholders that a given treatment, service, practice, or innovation is agreeable, palatable, or satisfactory.",
-                stakeholders: [
-                    "Technical experts", 
-                    "Subject matter experts (SMEs)", 
-                    "Future implementers", 
-                    "Future users (e.g., clinicians)",
-                    "Future beneficiaries (e.g., patients)"
-                ],
-                topics: [
-                    "Overall satisfaction",
-                    "Emotional reactions",
-                    "Perceived comfort",
-                    "Alignment with personal preferences",
-                    "Willingness for engagement",
-                    "Perceived advantages",
-                    "Trust and confidence"
-                ],
-                strategies: [
-                    { name: "Survey: Acceptability of Intervention Measure (AIM)", url: "https://doi.org/10.1186/s13012-017-0635-3" },
-                    { name: "Survey: Technology Acceptance Model (TAM)", url: "https://doi.org/10.1055/s-0038-1668091" }
-                ],
-            },
-            {
-                id: "appropriateness",
-                title: "Appropriateness",
-                type: "design",
-                definition: "The perceived fit, relevance, or compatibility of the innovation for a given practice setting, provider, or consumer; and/or perceived fit to address a particular issue.",
-                stakeholders: [
-                    "Subject matter experts (SMEs)", 
-                    "Future implementers", 
-                    "Future users (e.g., clinicians)",
-                    "Future beneficiaries (e.g., patients)"
-                ],
-                topics: [
-                    "Relevance to the clinical problem or population",
-                    "Compatibility with organizational missions or values",
-                    "Fit within existing clinical models or standards of care",
-                    "Perceived effectiveness for addressing the targeted issue",
-                    "Suitability for the local practice environment",
-                    "Congruence with stakeholder expectations",
-                    "Perceived necessity for the problem at hand"
-                ],
-                strategies: [
-                    { name: "Survey: Intervention Appropriateness Measure (IAM)", url: "https://doi.org/10.1186/s13012-017-0635-3" }
-                ],
-                altEvidence: [
-                    { name: "Field Observation: Pre-PRO integration framework", icon: "eye", url: "https://doi.org/10.1186/s43058-026-00859-5" },
-                ],
-            },
-            {
-                id: "adoption",
-                title: "Adoption",
-                type: "transitionary",
-                definition: "The intention, initial decision, or action to try or employ an innovation or evidence-based practice.",
-                stakeholders: [
-                    "Future users (e.g., clinicians)", 
-                    "Future beneficiaries (e.g., patients)", 
-                    "Organizational decision-makers (procurement)",
-                    "Financial decision-makers (budget officers)"
-                ],
-                topics: [
-                    "Perceived relative advantage of the intervention",
-                    "Compatibility with current workflow",
-                    "Perceived complexity or burden",
-                    "Resource requirements",
-                    "Organizational readiness",
-                    "Social and professional norms",
-                    "Conditions for approval or rejection",
-                    "Willingness to trial the intervention"
-                ],
-                strategies: [
-                    { name: "Survey: Multi-level forecasting measures", url: "https://doi.org/10.1007/s10488-014-0551-7" }
-                ],
-            },
-            {
-                id: "implementation_cost",
-                title: "Implementation Cost",
-                type: "strategy",
-                definition: "The cost impact of an implementation effort... depends upon the costs of the particular intervention, the strategy used, and the location of service delivery.",
-                stakeholders: [
-                    "Organizational-level decision-makers", 
-                    "Management team (unit managers)", 
-                    "Front-line users (clinicians, nurses)",
-                    "Future beneficiaries (patients)",
-                    "Policy/economic environment stakeholders"
-                ],
-                topics: [
-                    "Expected workflow changes",
-                    "Training burden and frequency",
-                    "Required staffing shifts",
-                    "IT/Infrastructure changes",
-                    "Maintenance requirements",
-                    "Competing initiatives",
-                    "Opportunity cost"
-                ],
-                strategies: [
-                    { name: "Local-level economic evaluation framework", url: "https://doi.org/10.1017/S0266462323002775" },
-                    { name: "Survey: Stage-Based Cost Projection (SIC/COINS)", url: "https://doi.org/10.1016/j.childyouth.2013.10.006" }
-                ],
-                altEvidence: [
-                    { name: "Document Evidence Review (Budgets, Wage scales, FTE maps)", icon: "file-text", url: "#" },
-                ],
-            },
-            {
-                id: "fidelity",
-                title: "Fidelity",
-                type: "strategy",
-                definition: "The degree to which an intervention was implemented as it was prescribed in the original protocol or as intended by developers.",
-                stakeholders: [
-                    "Senior leadership (Exec sponsors, CMO)", 
-                    "Mid-level operational managers (Quality directors)", 
-                    "Front-line users (clinicians, nurses)",
-                    "Future beneficiaries (patients)"
-                ],
-                topics: [
-                    "Adherence to core components",
-                    "Dose and reach",
-                    "Adaptations and modifications",
-                    "Barriers to protocol adherence",
-                    "Delivery expectations",
-                    "Differentiation from existing practice"
-                ],
-                strategies: [
-                    { name: "Survey: IPS Fidelity Scales", url: "https://doi.org/10.1176/appi.ps.201100476" }
-                ],
-                altEvidence: [
-                    { name: "Field Observation: Fidelity Rating System (FIMP)", icon: "eye", url: "https://doi.org/10.1016/S0005-7894(05)80049-8" },
-                ],
-            },
-            {
-                id: "penetration",
-                title: "Penetration",
-                type: "strategy",
-                definition: "The integration of a practice within a service setting and its subsystems, intrinsically linked to context.",
-                stakeholders: [
-                    "Senior leadership (Service line directors)", 
-                    "Mid-level operational managers", 
-                    "Financial decision-makers",
-                    "Clinical leadership (Governance leads)",
-                    "Infrastructure personnel (IT, Informatics, EMR)",
-                    "Front-line users"
-                ],
-                topics: [
-                    "Barriers and facilitators",
-                    "Contextual conditions",
-                    "Equity considerations",
-                    "Implementation infrastructure",
-                    "Interdepartmental coordination",
-                    "Sustainment factors",
-                    "Policy alignment and misalignment"
-                ],
-                strategies: [
-                    { name: "Survey: NoMAD Questionnaire", url: "https://doi.org/10.1186/s12874-018-0590-y" },
-                    { name: "Survey: Pragmatic Context Assessment Tool (pCAT)", url: "https://doi.org/10.1186/s43058-022-00380-5" }
-                ],
-                altEvidence: [
-                    { name: "Interview Coding Guide: NPT Guide", icon: "code", url: "https://doi.org/10.1186/1748-5908-8-43" },
-                ],
-            },
-            {
-                id: "sustainability",
-                title: "Sustainability",
-                type: "strategy",
-                definition: "The extent to which a newly implemented treatment is maintained or institutionalized within ongoing, stable operations.",
-                stakeholders: [
-                    "Senior leadership", 
-                    "Mid-level operational managers", 
-                    "Financial decision-makers",
-                    "Clinical leadership",
-                    "Implementation infrastructure personnel (IT/Data)",
-                    "Front-line users"
-                ],
-                topics: [
-                    "Strategic alignment",
-                    "Financial institutionalization",
-                    "Role formalization",
-                    "Infrastructure & data systems",
-                    "Staffing continuity",
-                    "Training and knowledge transfer",
-                    "Adaptability of the intervention",
-                    "Maintenance and leadership continuity"
-                ],
-                strategies: [
-                    { name: "Survey: PRISM Infrastructure Assessment", url: "https://doi.org/10.1016/S1553-7250(08)34030-6" }
-                ],
-                altEvidence: [
-                    { name: "Document Evidence Review (SOPs, Policy drafts, Staffing plans)", icon: "file-text", url: "#" },
-                ],
-            },
-        ];
+    const FRAMEWORK_DATA = [
+      {
+        id: "feasibility",
+        title: "Feasibility",
+        type: "design",
+        definition: "The extent to which a new treatment, or an innovation, can be successfully used or carried out within a given agency or setting.",
+        stakeholders: [
+          "Technical experts (i.e., those who can assess the technical feasibility of the intervention)",
+          "Future implementers of the intervention (i.e., those who will support eventual implementation)",
+          "Future users of the intervention (e.g., clinicians)"
+        ],
+        topics: [
+          { title: "Practical capability for carrying out the design", question: "As you look at the proposed intervention, does it seem like something that is actually doable or workable for your team to carry out?" },
+          { title: "Resource availability (time, staffing, equipment, infrastructure)", question: "What infrastructure or equipment is available to support the successful use of this design?" },
+          { title: "Training and skill sufficiency", question: "How much additional effort would be needed to get every provider up to the necessary skill level?" },
+          { title: "Ease or difficulty of execution in routine practice", question: "How convenient or easy to use do you anticipate this innovation will be for frontline staff during their routine practice?" },
+          { title: "Perceived implementation burden", question: "What infrastructure or equipment gaps do you anticipate might hinder the successful use of this design?" },
+          { title: "Trialability", question: "Is there an opportunity for the team to try this intervention on a small scale or limited basis before we move to a permanent rollout?" },
+          { title: "Competing demands and capacity constraints", question: "What competing demands currently exist in your setting that might make this intervention feel ‘infeasible,’ even if it is otherwise appropriate?" }
+        ],
+        strategies: [
+          { name: "Survey: Feasibility of Intervention Measure (FIM)", referenceUrl: "https://doi.org/10.1186/s13012-017-0635-3", referenceLabel: "Reference", instrumentUrl: "https://dissemination-implementation.org/wp-content/uploads/2024/09/Acceptability-Appropriateness-Feasibility-Scale.docx", instrumentLabel: "FIM/AIM/IAM Instrument Link:",
+            description: "Use the 4-item FIM questionnaire instrument to assess whether a medical intervention innovation is practical to carry out in the intended real-world setting or agency. It helps designers judge whether the innovation can realistically be implemented given available time, resources, workflows, and organizational conditions before full-scale rollout."
+          },
+          { name: "Survey: Readiness Thinking Tool", referenceUrl: "https://doi.org/10.1177/15248399221080096", referenceLabel: "Reference", instrumentUrl: "https://dissemination-implementation.org/wp-content/uploads/2024/09/Readiness-Thinking-Tool-RTT-_Instrument.docx", instrumentLabel: "Readiness Thinking Survey Link:",
+            description: "Use the structured Readiness Thinking Questionnaire to assess an organization’s readiness to implement a medical intervention innovation by capturing motivations, innovation-specific capacity, and general capacity."
+          },
+          { name: "Observation Guide: Readiness Thinking Tool", referenceUrl: "https://doi.org/10.1177/15248399221080096", referenceLabel: "Reference", instrumentUrl: "https://dissemination-implementation.org/wp-content/uploads/2024/09/531c7f_dbd8360b53b146b6a4fbffcb321cacfd.pdf", instrumentLabel: "Readiness Thinking Observation Guide Link:",
+            description: "Use the structured, workflow-based Readiness Thinking Observation Guide to identify challenges, strengths, and areas of uncertainty related to an organization’s motivation, innovation-specific capacity, and general capacity to implement a medical intervention innovation."
+          }
+        ],
+        altEvidence: [
+          { name: "Workflow Analysis", icon: "workflow", referenceUrl: "https://doi.org/10.2196/18534", referenceLabel: "Reference",
+            description: "Use workflow analysis as a structured, real-time observational approach to understand how care is actually delivered in clinical settings by documenting tasks, interactions, communication patterns, and contextual conditions as they unfold. In the context of medical intervention innovation, it helps designers identify workflow bottlenecks, role responsibilities, environmental constraints, and other implementation friction points so they can refine an intervention to better fit the realities of practice before full-scale implementation."
+          }
+        ]
+      },
+      {
+        id: "acceptability",
+        title: "Acceptability",
+        type: "design",
+        definition: "The perception among implementation stakeholders that a given treatment, service, practice, or innovation is agreeable, palatable, or satisfactory.",
+        stakeholders: [
+          "Technical experts (i.e., those who can assess the technical feasibility of the intervention)",
+          "Subject matter experts (i.e., those who have experience working to implement similar types of interventions)",
+          "Future implementers of the intervention (i.e., those who will support eventual implementation)",
+          "Future users of the intervention (e.g., clinicians)",
+          "Future beneficiaries of the intervention (e.g., patients)"
+        ],
+        topics: [
+          { title: "Overall satisfaction", question: "To what extent does this innovation meet your personal expectations for high-quality care?" },
+          { title: "Emotional reactions", question: "What aspects of this innovation do you find particularly appealing or unappealing?" },
+          { title: "Perceived comfort", question: "How comfortable would you feel delivering this treatment to your patients?" },
+          { title: "Alignment with personal preferences", question: "How does this design match your personal ideas about how care should be delivered?" },
+          { title: "Willingness for engagement", question: "What factors would make you feel more ‘welcoming’ toward the use of this innovation?" },
+          { title: "Perceived advantages", question: "What benefits do you see in using this innovation compared to the current way you do things?" },
+          { title: "Trust and confidence", question: "How much do you trust that this practice will lead to the outcomes intended by the developers?" }
+        ],
+        strategies: [
+          { name: "Individual-Level Technology Acceptance Model (TAM)", referenceUrl: "https://doi.org/10.1055/s-0038-1668091", referenceLabel: "Reference",
+            description: "Use the TAM to predict and explain how likely individuals are to accept a new medical intervention innovation. TAM does this by examining key factors such as Perceived Usefulness (PU), or whether users believe the intervention will improve their performance or efficiency, and Perceived Ease of Use (PEOU), or whether they believe it will be easy to use; these perceptions can be assessed across different user groups and contextual conditions."
+          },
+          { name: "Acceptability of Intervention Measure (AIM)", referenceUrl: "https://doi.org/10.1186/s13012-017-0635-3", referenceLabel: "Reference", instrumentUrl: "https://dissemination-implementation.org/wp-content/uploads/2024/09/Acceptability-Appropriateness-Feasibility-Scale.docx", instrumentLabel: "FIM/AIM/IAM Instrument Link:",
+            description: "Use the 4-item AIM questionnaire measurement to assess whether a medical intervention innovation is viewed as satisfactory, agreeable, or acceptable by key stakeholders. It helps designers understand how those involved may respond to the innovation and identify areas that may need refinement before broader implementation."
+          }
+        ]
+      },
+      {
+        id: "appropriateness",
+        title: "Appropriateness",
+        type: "design",
+        definition: "The perceived fit, relevance, or compatibility of the innovation for a given practice setting, provider, or consumer; and/or perceived fit to address a particular issue.",
+        stakeholders: [
+          "Subject matter experts (i.e., those who have experience working to implement similar types of interventions)",
+          "Future implementers of the intervention (i.e., those who will support eventual implementation)",
+          "Future users of the intervention (e.g., clinicians)",
+          "Future beneficiaries of the intervention (e.g., patients)"
+        ],
+        topics: [
+          { title: "Perceived necessity for the problem at hand", question: "How would you describe the necessity of this innovation for addressing [the specific clinical gaps] we currently face?" },
+          { title: "Relevance to the clinical problem or population", question: "How does this intervention address [the specific presenting problems and needs of the patients]?" },
+          { title: "Compatibility with organizational missions or values", question: "Where do you see potential conflicts between the values of this innovation and the values that govern your work here?" },
+          { title: "Fit within existing clinical models or standards of care", question: "How does this new practice fit alongside the established protocols you are already expected to follow?" },
+          { title: "Perceived effectiveness for addressing the targeted issue", question: "What are your thoughts on how effective this intervention will be in achieving [its intended clinical purpose]?" }
+        ],
+        strategies: [
+          { name: "Survey: Intervention Appropriateness Measure (IAM)", referenceUrl: "https://doi.org/10.1186/s13012-017-0635-3", referenceLabel: "Reference", instrumentUrl: "https://dissemination-implementation.org/wp-content/uploads/2024/09/Acceptability-Appropriateness-Feasibility-Scale.docx", instrumentLabel: "FIM/AIM/IAM Instrument Link:",
+            description: "Use the 4-item IAM questionnaire measurement to assess whether a medical intervention innovation is perceived as a good fit for the clinical problem, intended users, and implementation setting. It helps designers determine whether the innovation is relevant, compatible, and well-matched to the context in which it is meant to be used before full-scale implementation."
+          }
+        ],
+        altEvidence: [
+          { name: "Field Observation: Field observation framework for pre-implementation of pre-patient-reported outcome measurement", icon: "eye", referenceUrl: "https://doi.org/10.1186/s43058-026-00859-5", referenceLabel: "Reference",
+            description: "Conduct field observations using ethnographic methods to identify site-level differences in clinic layouts, staffing stability, and patient digital literacy that surveys or interviews alone may miss when assessing organizational readiness and appropriateness for a new medical intervention innovation, particularly in low-resourced settings such as community cancer centers."
+          }
+        ]
+      },
+      {
+        id: "adoption",
+        title: "Adoption",
+        type: "transitionary",
+        definition: "The intention, initial decision, or action to try or employ an innovation or evidence-based practice.",
+        stakeholders: [
+          "Future users of the intervention (e.g., clinicians)",
+          "Future beneficiaries of the intervention (e.g., patients)",
+          "Organizational decision-makers (e.g., procurement officers)",
+          "Financial decision-makers (e.g., budget officers, financial planning representatives)"
+        ],
+        topics: [
+          { title: "Perceived relative advantage of the intervention", question: "In what specific ways do you believe this innovation will make your work more effective or efficient?" },
+          { title: "Compatibility with the current workflow", question: "Where do you anticipate the most significant ‘friction points’ between this new protocol and your daily clinical routine?" },
+          { title: "Perceived complexity or burden", question: "Based on your understanding of this program, what parts of participating in it seem most demanding or difficult for you?" },
+          { title: "Resource requirements", question: "What specific budget adjustments or dedicated funding streams would be necessary to make the initial decision to adopt this feasible?" },
+          { title: "Organizational readiness", question: "Based on our past experience with change, how prepared do you feel the leadership team is to champion this specific innovation?" },
+          { title: "Social/professional norms", question: "How do you think you and your colleagues will view the decision to move toward this specific model of care?" },
+          { title: "Conditions for approval and rejection", question: "What specific financial or performance ‘deal-breakers’ would lead you to decide not to proceed with this intervention?" },
+          { title: "Willingness to trial the intervention", question: "What would make you feel comfortable trying this new service on a temporary, trial basis?" }
+        ],
+        strategies: [
+          { name: "Survey: Multi-level forecasting measures anticipated adoption or uptake (a predictor-based survey)", referenceUrl: "https://doi.org/10.1007/s10488-014-0551-7", referenceLabel: "Reference",
+            description: "Use the Multi-Level Forecasting Measures to predict the decision to adopt a medical intervention innovation by evaluating 27 specific predictors organized across four contextual levels: External System, Organization, Innovation, and Individual. This tool helps designers gain a comprehensive view of facilitators and barriers in the complex decision-making process behind intervention uptake."
+          }
+        ]
+      },
+      {
+        id: "implementation_cost",
+        title: "Implementation Cost",
+        type: "strategy",
+        definition: "The cost impact of an implementation effort... depends upon the costs of the particular intervention, the strategy used, and the location of service delivery.",
+        stakeholders: [
+          "Organizational-level decision-makers",
+          "Management team (e.g., unit managers)",
+          "Front-line users (e.g., clinicians, nurses, support staff)",
+          "Future beneficiaries of the intervention (e.g., patients)",
+          "Policy/economic environment stakeholders (e.g., finance perspective, reimbursement constraints)"
+        ],
+        topics: [
+          { title: "Expected workflow changes", question: "Can you describe the specific steps in your current workflow that will be added, removed, or altered by this new intervention?" },
+          { title: "Training burden and frequency", question: "Beyond the initial training sessions, how much monthly time do you anticipate staff will need for ongoing coaching or expert consultation to maintain competency?" },
+          { title: "Required staffing shifts", question: "Will this intervention require you or your team to hire new specialized roles, or can you shift these tasks to existing staff?" },
+          { title: "IT/Infrastructure changes", question: "What specific modifications are required for the existing electronic health records (EHR) to support this tool, and will it require new dedicated hardware like tablets?" },
+          { title: "Maintenance requirements", question: "What recurring annual resources (e.g., technology support or data hosting fees) are necessary to ensure this practice remains institutionalized after the initial rollout?" },
+          { title: "Competing initiatives", question: "What other major mandates or quality improvement projects is your team currently prioritizing that might conflict with the rollout of this initiative?" },
+          { title: "Opportunity cost", question: "If frontline staff dedicate 10 hours a week to this initiative, what specific billable patient care or revenue-generating activities will they have to give up?" },
+          { title: "Individual participant/patient costs", question: "What out-of-pocket costs (e.g., travel or childcare) or time-related burdens will your patients face if they fully engage with this new intervention?" }
+        ],
+        strategies: [
+          { name: "Observation-Based Measure: Combination of the Stages of Implementation Completion (SIC) Cost of Implementing New Strategies (COINS)", referenceUrl: "https://doi.org/10.1016/j.childyouth.2013.10.006", referenceLabel: "Reference", instrumentUrl: "https://www.oslc.org/sic/", instrumentLabel: "The SIC Framework:",
+            description: "Use the COINS to map historical implementation resource and cost data directly onto the framework provided by the SIC. The implementation cost is different from the costs of the intervention being delivered. COINS tracks four types of resources: fixed fees, variable fees, travel and lodging, as well as person-hours and salaries. It also highlights the significance of sunk costs, which incur before an intervention or program is even established and are unrecoverable if implementation fails. This strategy also allows for comparisons of different implementation strategies, identification of early warning signs from pre-implementation SIC scores, as well as fiscal planning and resource allocation."
+          },
+          { name: "Local-level economic evaluation framework", referenceUrl: "https://doi.org/10.1017/S0266462323002775", referenceLabel: "Reference",
+            description: "Use the local-level economic evaluation framework to estimate the specific costs and consequences for a medical intervention innovation within the local context. This requires designers to look beyond simple budget lines and consider multiple layers of economic impact. Suggested steps: (1) define analytic perspectives such as organization, unit, and patient; (2) use local operational data such as staffing ratios, wage scales, and throughput; (3) conduct a pragmatic literature scan for cost drivers; and (4) convene a stakeholder working group to adjust assumptions, validate feasibility, and identify high-risk cost drivers."
+          }
+        ],
+        altEvidence: [
+          { name: "Document Evidence Review for Local-Level Economic Evaluation", icon: "file-text", referenceUrl: "https://doi.org/10.1017/S0266462323002775", referenceLabel: "Reference",
+            description: "Conduct document evidence review to systematically analyze existing local evidence such as organizational records, audits, and health system data to assess baseline context, resource availability, and existing costs before implementation. Recommended review foci include budget allocations, staffing plans, wage schedules, procurement documents, workflow maps, and maintenance contracts."
+          }
+        ]
+      },
+      {
+        id: "fidelity",
+        title: "Fidelity",
+        type: "strategy",
+        definition: "The degree to which an intervention was implemented as it was prescribed in the original protocol or as intended by developers.",
+        stakeholders: [
+          "Senior leadership (e.g., service line directors, chief medical officer, executive sponsors)",
+          "Mid-level operational managers (e.g., clinical managers, program managers, quality improvement directors)",
+          "Financial decision-makers",
+          "Clinical leadership (e.g., influential physicians, nursing leadership, clinical governance leads)",
+          "Implementation infrastructure personnel (e.g., data analytics teams, IT/clinical informatics, EMR support teams)",
+          "Front-line users (e.g., clinicians, nurses, support staff)"
+        ],
+        topics: [
+          { title: "Adherence to core components", question: "As you review the original design, what do you see as the ‘critical ingredients’ or core steps that must be delivered to ensure the intervention remains effective?" },
+          { title: "Dose and reach", question: "How do you define a ‘complete’ delivery of this intervention, and how do we ensure the protocol is available to every person who meets the eligibility criteria?" },
+          { title: "Adaptations and modifications", question: "Are there any specific parts of the intended protocol that you believe should be formally modified to better fit our local patient population or clinical environment?" },
+          { title: "Barriers to protocol adherence", question: "As you review the original protocol, which specific core components do you anticipate will be the most difficult to implement exactly as the developers intended in this clinical setting?" },
+          { title: "Facilitators to protocol adherence", question: "What existing organizational strengths or resources will be most helpful in supporting the team to stay aligned with the project’s original design?" },
+          { title: "Delivery expectations", question: "How will the team distinguish between simply ‘checking the box’ to complete a task and delivering this intervention with the high level of quality intended by the developers?" },
+          { title: "Differentiation from existing practice", question: "When comparing this new protocol to our current ‘usual care,’ what are the most significant changes in practice that we must ensure the team understands and follows?" }
+        ],
+        strategies: [
+          { name: "Observation-Based Measure: Fidelity of Implementation Rating System (FIMP)", referenceUrl: "https://doi.org/10.1016/S0005-7894(05)80049-8", referenceLabel: "Reference",
+            description: "Use the FIMP as an observation-based measure to assess fidelity through two essential components: adherence and competence. It evaluates five specific dimensions of intervention delivery using a 9-point scale: Knowledge, Structure, Teaching, Clinical Process, and Overall Quality."
+          }
+        ]
+      },
+      {
+        id: "penetration",
+        title: "Penetration",
+        type: "strategy",
+        definition: "The integration of a practice within a service setting and its subsystems, intrinsically linked to context.",
+        stakeholders: [
+          "Senior leadership (e.g., service line directors, chief medical officer, executive sponsors)",
+          "Mid-level operational managers (e.g., clinical managers, program managers, quality improvement directors)",
+          "Financial decision-makers",
+          "Clinical leadership (e.g., influential physicians, nursing leadership, clinical governance leads)",
+          "Implementation infrastructure personnel (e.g., data analytics teams, IT/clinical informatics, EMR support teams)",
+          "Front-line users (e.g., clinicians, nurses, support staff)"
+        ],
+        topics: [
+          { title: "Contextual fit and compatibility", question: "In what ways does this new practice feel like a natural part of your existing clinical routine versus an ‘extra’ task?" },
+          { title: "Reach and niche saturation", question: "What is your long-term vision for how this practice should eventually reach every eligible patient across the diverse service lines?" },
+          { title: "Implementation infrastructure & collective action", question: "How would the team roles and activities need to be re-organized or re-structured to ensure this practice becomes a stable part of operations?" },
+          { title: "Sustainment and institutionalization factors", question: "How are you planning to transition the support for this practice from a temporary implementation budget to a permanent operating expense?" },
+          { title: "Policy alignment and interdepartmental coordination", question: "How do your current hospital-wide policies support or potentially hinder the way you may coordinate this practice across different service lines?" }
+        ],
+        strategies: [
+          { name: "Survey: Normalization Process Theory Questionnaire (NoMAD)", referenceUrl: "https://doi.org/10.1186/s12874-018-0590-y", referenceLabel: "Reference", instrumentUrl: "http://www.normalizationprocess.org/", instrumentLabel: "NoMAD Instrument Link:",
+            description: "Use the 23-item, theory-based NoMAD survey to assess penetration from the perspective of staff involved in changing healthcare practices. It includes three general assessment items regarding current and future familiarity of the intervention and four theoretical constructs: coherence, cognitive participation, collective action, and reflexive monitoring."
+          },
+          { name: "Interview Coding Guide: Normalization Process Theory Interview Guide", referenceUrl: "https://doi.org/10.1186/1748-5908-8-43", referenceLabel: "Reference", instrumentUrl: "https://dissemination-implementation.org/wp-content/uploads/2024/09/Normalization-Processing-Theory-Interview_Coding-Guide.pdf", instrumentLabel: "Normalization Process Theory Interview Guide Instrument Link:",
+            description: "Use the Normalization Process Theory Interview Guide in combination with the NoMAD survey as a qualitative framework to evaluate how a medical intervention innovation becomes embedded and integrated into intended contexts."
+          },
+          { name: "Survey: Pragmatic Context Assessment Tool (pCAT)", referenceUrl: "https://doi.org/10.1186/s43058-022-00380-5", referenceLabel: "Reference", instrumentUrl: "https://dissemination-implementation.org/wp-content/uploads/2025/05/pCAT-Tool.pdf", instrumentLabel: "pCAT Instrument Link:",
+            description: "Use the 14-item quantitative pCAT instrument to determine the level of penetration or the tangible fit of a medical intervention innovation within an organization’s existing subsystems. It is based on CFIR but translates technical constructs into everyday language familiar to clinicians."
+          }
+        ]
+      },
+      {
+        id: "sustainability",
+        title: "Sustainability",
+        type: "strategy",
+        definition: "The extent to which a newly implemented treatment is maintained or institutionalized within ongoing, stable operations.",
+        stakeholders: [
+          "Senior leadership (e.g., service line directors, chief medical officer, executive sponsors)",
+          "Mid-level operational managers (e.g., clinical managers, program managers, quality improvement directors)",
+          "Financial decision-makers",
+          "Clinical leadership (e.g., influential physicians, nursing leadership, clinical governance leads)",
+          "Implementation infrastructure personnel (e.g., IT/data, analytics, clinical informatics)",
+          "Front-line users (e.g., clinicians, nurses, support staff)"
+        ],
+        topics: [
+          { title: "Strategic alignment", question: "In what ways do you believe this practice has become essential to your clinic’s long-term vision and reputation for quality?" },
+          { title: "Financial institutionalization", question: "How are we ensuring that the financial resources needed for this program are protected during future budget cycles?" },
+          { title: "Role formalization", question: "To what extent have the tasks required for this intervention been officially integrated into your team’s annual performance evaluations?" },
+          { title: "Infrastructure & data systems", question: "What permanent or long-term systems are in place to ensure that data from this practice continues to be visible to clinical teams over the long term?" },
+          { title: "Training and knowledge transfer", question: "What mechanisms exist to ensure that as new staff join the team, they receive the specialized training needed to maintain the intervention’s quality?" },
+          { title: "Adaptability", question: "What opportunities do you have to suggest improvements to the workflow to make this intervention easier to maintain during busy shifts?" },
+          { title: "Maintenance and leadership continuity", question: "Who are the emerging leaders within the clinical team who have taken on the responsibility of advocating for this practice?" },
+          { title: "External environmental pressure", question: "How do external factors like accreditation requirements or payor satisfaction influence the commitment to funding this practice long-term?" }
+        ],
+        strategies: [
+          { name: "Interview Framework: the Practical, Robust Implementation and Sustainability Infrastructure Assessment (PRISM)", referenceUrl: "https://doi.org/10.1016/S1553-7250(08)34030-6", referenceLabel: "Reference",
+            description: "Use the context-oriented PRISM as a comprehensive framework to organize interviews for predicting the sustainability of a medical intervention innovation. PRISM predicts and enhances institutionalization by assessing maintenance infrastructure, organizational and management expectations, adaptability and usability from the organizational perspective, and external environmental pressure from the outset of the project."
+          }
+        ],
+        altEvidence: [
+          { name: "Document Evidence Review", icon: "file-text", referenceUrl: "https://doi.org/10.1016/S1553-7250(08)34030-6", referenceLabel: "Reference",
+            description: "Review budget documents, policy drafts, standard operating procedures, workflow maps, and staffing plans to determine whether sustainability is supported by formal structures, resources, and operating routines rather than temporary project conditions."
+          }
+        ]
+      }
+    ];
 
-        const App = () => {
-            const [selectedOutcomes, setSelectedOutcomes] = useState([]);
-            const [view, setView] = useState("selection");
+    const colorStyles = {
+      design: {
+        card: "border-emerald-100",
+        header: "bg-emerald-50 border-emerald-100",
+        accent: "text-emerald-800",
+        badge: "bg-emerald-200 text-emerald-800",
+        solid: "bg-emerald-500",
+        pill: "bg-white border-emerald-200 text-emerald-700"
+      },
+      transitionary: {
+        card: "border-purple-100",
+        header: "bg-purple-50 border-purple-100",
+        accent: "text-purple-800",
+        badge: "bg-purple-200 text-purple-800",
+        solid: "bg-purple-500",
+        pill: "bg-white border-purple-200 text-purple-700"
+      },
+      strategy: {
+        card: "border-slate-200",
+        header: "bg-slate-100 border-slate-200",
+        accent: "text-slate-800",
+        badge: "bg-slate-700 text-white",
+        solid: "bg-slate-600",
+        pill: "bg-slate-700 border-slate-700 text-white"
+      }
+    };
 
-            const toggleOutcome = (id) => {
-                setSelectedOutcomes((prev) =>
-                    prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-                );
-            };
+    const typeLabel = (type) => {
+      if (type === "design") return "Design Focused";
+      if (type === "transitionary") return "Transitionary";
+      return "Strategy Focused";
+    };
 
-            const getSelectedData = () =>
-                FRAMEWORK_DATA.filter((o) => selectedOutcomes.includes(o.id));
+    const measureLabel = (type) => {
+      if (type === "design") return "Direct Measure";
+      if (type === "transitionary") return "Bridge Measure";
+      return "Exploratory";
+    };
 
-            const SelectionView = () => (
-                <div className="space-y-4 animate-in">
-                    <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6">
-                        <h2 className="text-gray-900 font-bold flex items-center gap-2 mb-4">
-                            <Icon name="info" size={18} className="text-blue-600" /> Framework Instructions
-                        </h2>
-                        <div className="grid md:grid-cols-3 gap-6 text-sm">
-                            <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-100">
-                                <h3 className="font-bold text-emerald-800 flex items-center gap-1.5 mb-1">
-                                    <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                                    Design-Focused
-                                </h3>
-                                <p className="text-emerald-700 leading-relaxed">
-                                    Outcomes related to intervention design. These are <strong>directly measurable</strong> in mid-design evaluation for refinement.
-                                </p>
-                            </div>
+    const TopicAccordion = ({ topic, tone }) => {
+      const [open, setOpen] = useState(true);
+      return (
+        <div className="border border-blue-100 rounded-xl bg-blue-50/40 overflow-hidden avoid-break">
+          <button onClick={() => setOpen(!open)} className="w-full text-left p-3 flex items-start justify-between gap-3 screen-only">
+            <div>
+              <p className="text-sm font-bold text-gray-900 leading-snug">{topic.title}</p>
+              <p className="text-xs text-blue-700 mt-1">Click to view sample question</p>
+            </div>
+            <Icon name={open ? "chevron-up" : "chevron-down"} size={16} className="text-blue-600 mt-0.5" />
+          </button>
+          <div className={`${open ? 'block' : 'hidden'} screen-only px-3 pb-3`}>
+            <p className="text-sm italic text-gray-700 leading-relaxed">“{topic.question}”</p>
+          </div>
+          <div className="print-only p-3">
+            <p className="text-sm font-bold text-gray-900 leading-snug">{topic.title}</p>
+            <p className="text-sm italic text-gray-700 leading-relaxed mt-1">“{topic.question}”</p>
+          </div>
+        </div>
+      );
+    };
 
-                            <div className="p-3 bg-purple-50 rounded-lg border border-purple-100">
-                                <h3 className="font-bold text-purple-800 flex items-center gap-1.5 mb-1">
-                                    <div className="w-2 h-2 rounded-full bg-purple-500" />
-                                    Transitionary
-                                </h3>
-                                <p className="text-purple-700 leading-relaxed">
-                                    <strong>Adoption</strong> serves as the bridge between "design" and "deployment," measuring the psychological readiness of stakeholders.
-                                </p>
-                            </div>
+    const StrategyAccordion = ({ item, color = "purple" }) => {
+      const [open, setOpen] = useState(true);
+      const palette = color === "indigo"
+        ? { box: "bg-indigo-50 border-indigo-100", text: "text-indigo-900", icon: "text-indigo-500", soft: "text-indigo-700" }
+        : { box: "bg-purple-50 border-purple-100", text: "text-purple-900", icon: "text-purple-500", soft: "text-purple-700" };
 
-                            <div className="p-3 bg-slate-100 rounded-lg border border-slate-200">
-                                <h3 className="font-bold text-slate-800 flex items-center gap-1.5 mb-1">
-                                    <div className="w-2 h-2 rounded-full bg-slate-500" />
-                                    Strategy-Focused
-                                </h3>
-                                <p className="text-slate-700 leading-relaxed">
-                                    Outcomes related to implementation and maintenance. Used for <strong>exploratory consideration</strong> during mid-design.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {FRAMEWORK_DATA.map((outcome) => (
-                            <button
-                                key={outcome.id}
-                                onClick={() => toggleOutcome(outcome.id)}
-                                className={`p-4 rounded-xl border-2 text-left transition-all relative group ${
-                                    selectedOutcomes.includes(outcome.id)
-                                        ? outcome.type === "design"
-                                            ? "border-emerald-500 bg-emerald-50 ring-2 ring-emerald-100"
-                                            : outcome.type === "transitionary"
-                                                ? "border-purple-500 bg-purple-50 ring-2 ring-purple-100"
-                                                : "border-slate-600 bg-slate-50 ring-2 ring-slate-100"
-                                        : "border-gray-200 bg-white hover:border-gray-300 shadow-sm"
-                                }`}
-                            >
-                                <div className="flex justify-between items-start">
-                                    <h3 className="font-bold text-lg">{outcome.title}</h3>
-                                    {selectedOutcomes.includes(outcome.id) && (
-                                        <Icon 
-                                            name="check-circle-2" 
-                                            size={20} 
-                                            className={
-                                                outcome.type === "design" ? "text-emerald-600" : 
-                                                outcome.type === "transitionary" ? "text-purple-600" : "text-slate-600"
-                                            } 
-                                        />
-                                    )}
-                                </div>
-                                <p className="text-sm text-gray-600 mt-1 line-clamp-2 leading-relaxed italic">
-                                    {outcome.definition}
-                                </p>
-                                <div className="flex items-center gap-2 mt-4">
-                                    <span className={`px-2 py-0.5 text-[10px] rounded uppercase font-bold tracking-wider ${
-                                        outcome.type === "design" ? "bg-emerald-200 text-emerald-800" : 
-                                        outcome.type === "transitionary" ? "bg-purple-200 text-purple-800" : "bg-slate-700 text-white"
-                                    }`}>
-                                        {outcome.type === "design" ? "Direct Measure" : 
-                                         outcome.type === "transitionary" ? "Bridge Measure" : "Exploratory"}
-                                    </span>
-                                </div>
-                            </button>
-                        ))}
-                    </div>
+      return (
+        <div className={`rounded-xl border ${palette.box} overflow-hidden avoid-break`}>
+          <button onClick={() => setOpen(!open)} className={`w-full p-3 text-left flex items-start justify-between gap-3 screen-only ${palette.text}`}>
+            <div>
+              {item.referenceUrl ? (
+                <a
+                  href={item.referenceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-[13px] font-semibold leading-snug underline underline-offset-2"
+                >
+                  {item.name}
+                </a>
+              ) : (
+                <p className="text-[13px] font-semibold leading-snug">{item.name}</p>
+              )}
+              {item.referenceLabel && item.referenceUrl && item.instrumentUrl && (
+                
+              )}
+            </div>
+            <Icon name={open ? "chevron-up" : "chevron-down"} size={16} className={`${palette.icon} mt-0.5`} />
+          </button>
+          <div className={`${open ? 'block' : 'hidden'} screen-only px-3 pb-3`}>
+            <p className="text-[13px] leading-relaxed text-gray-700">{item.description}</p>
+            <div className="mt-3 space-y-2">
+              {item.referenceUrl && item.instrumentUrl && (
+                <a href={item.referenceUrl} target="_blank" rel="noopener noreferrer" className={`inline-flex items-center gap-2 text-[12px] ${palette.text}`}>
+                  <Icon name="external-link" size={13} className={palette.icon} />
+                </a>
+              )}
+              {item.instrumentUrl && (
+                <div>
+                  <p className={`text-[11px] font-semibold ${palette.soft}`}>{item.instrumentLabel || "Instrument Link:"}</p>
+                  <a href={item.instrumentUrl} target="_blank" rel="noopener noreferrer" className={`inline-flex items-center gap-2 mt-1 text-[12px] font-semibold ${palette.text} break-all`}>
+                    <Icon name="link" size={13} className={palette.icon} /> {item.instrumentUrl}
+                  </a>
                 </div>
-            );
+              )}
+            </div>
+          </div>
+          <div className="print-only p-3">
+            <p className={`text-[13px] font-semibold leading-snug ${palette.text}`}>{item.name}</p>
+            <p className="text-[13px] leading-relaxed text-gray-700 mt-2">{item.description}</p>
+            {item.referenceUrl && <p className="text-[11px] text-gray-500 mt-2">{item.referenceUrl}</p>}
+            {item.instrumentUrl && <p className="text-[11px] text-gray-500 mt-1">{item.instrumentLabel || "Instrument Link:"} {item.instrumentUrl}</p>}
+          </div>
+        </div>
+      );
+    };
 
-            const StakeholderView = () => (
-                <div className="space-y-6 animate-in">
-                    <div>
-                        <h2 className="text-2xl font-bold">Stakeholders Required to Evaluate</h2>
-                        <p className="text-gray-600">Gather perspectives from key stakeholder groups identified in the framework:</p>
-                    </div>
-                    <div className="space-y-4">
-                        {getSelectedData().map((outcome) => (
-                            <div key={outcome.id} className={`bg-white rounded-xl border shadow-sm overflow-hidden ${
-                                outcome.type === "design" ? "border-emerald-200" : 
-                                outcome.type === "transitionary" ? "border-purple-200" : "border-slate-300"
-                            }`}>
-                                <div className={`px-4 py-2 border-b flex items-center justify-between ${
-                                    outcome.type === "design" ? "bg-emerald-50 border-emerald-100" : 
-                                    outcome.type === "transitionary" ? "bg-purple-50 border-purple-100" : "bg-slate-100 border-slate-200"
-                                }`}>
-                                    <div className="flex items-center gap-2">
-                                        <div className={`w-3 h-3 rounded-sm ${
-                                            outcome.type === "design" ? "bg-emerald-500" : 
-                                            outcome.type === "transitionary" ? "bg-purple-500" : "bg-slate-600"
-                                        }`} />
-                                        <span className={`font-bold text-sm uppercase tracking-tight ${
-                                            outcome.type === "design" ? "text-emerald-900" : 
-                                            outcome.type === "transitionary" ? "text-purple-900" : "text-slate-900"
-                                        }`}>{outcome.title}</span>
-                                    </div>
-                                    <span className={`text-[10px] px-2 py-0.5 rounded font-bold ${
-                                        outcome.type === "design" ? "bg-emerald-200 text-emerald-800" : 
-                                        outcome.type === "transitionary" ? "bg-purple-200 text-purple-800" : "bg-slate-700 text-white"
-                                    }`}>
-                                        {outcome.stakeholders.length} Roles Required
-                                    </span>
-                                </div>
-                                <div className="divide-y divide-gray-100 grid grid-cols-1 md:grid-cols-2">
-                                    {outcome.stakeholders.map((s, idx) => (
-                                        <div key={idx} className="p-3 flex items-center gap-3 text-sm font-medium text-gray-700 bg-white">
-                                            <div className={`w-1.5 h-1.5 rounded-full ${
-                                                outcome.type === "design" ? "bg-emerald-400" : 
-                                                outcome.type === "transitionary" ? "bg-purple-400" : "bg-slate-400"
-                                            }`} />
-                                            {s}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+    const App = () => {
+      const [selectedOutcomes, setSelectedOutcomes] = useState([]);
+      const [view, setView] = useState("selection");
+
+      const toggleOutcome = (id) => {
+        setSelectedOutcomes((prev) => prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]);
+      };
+
+      const getSelectedData = useMemo(() => FRAMEWORK_DATA.filter((o) => selectedOutcomes.includes(o.id)), [selectedOutcomes]);
+
+      const SelectionView = () => (
+        <div className="space-y-4 animate-in">
+          <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6">
+            <h2 className="text-gray-900 font-bold flex items-center gap-2 mb-4">
+              <Icon name="info" size={18} className="text-blue-600" /> Framework Instructions
+            </h2>
+            <div className="grid md:grid-cols-3 gap-6 text-sm">
+              <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-100">
+                <h3 className="font-bold text-emerald-800 flex items-center gap-1.5 mb-1">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500" /> Design-Focused
+                </h3>
+                <p className="text-emerald-700 leading-relaxed">
+                  Outcomes related to intervention design. These are <strong>directly measurable</strong> in mid-design evaluation for refinement.
+                </p>
+              </div>
+              <div className="p-3 bg-purple-50 rounded-lg border border-purple-100">
+                <h3 className="font-bold text-purple-800 flex items-center gap-1.5 mb-1">
+                  <div className="w-2 h-2 rounded-full bg-purple-500" /> Transitionary
+                </h3>
+                <p className="text-purple-700 leading-relaxed">
+                  <strong>Adoption</strong> serves as the bridge between design and deployment, measuring psychological readiness and early uptake conditions.
+                </p>
+              </div>
+              <div className="p-3 bg-slate-100 rounded-lg border border-slate-200">
+                <h3 className="font-bold text-slate-800 flex items-center gap-1.5 mb-1">
+                  <div className="w-2 h-2 rounded-full bg-slate-500" /> Strategy-Focused
+                </h3>
+                <p className="text-slate-700 leading-relaxed">
+                  Outcomes related to implementation and maintenance. Used for <strong>exploratory consideration</strong> during mid-design.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {FRAMEWORK_DATA.map((outcome) => (
+              <button
+                key={outcome.id}
+                onClick={() => toggleOutcome(outcome.id)}
+                className={`p-4 rounded-xl border-2 text-left transition-all relative group ${
+                  selectedOutcomes.includes(outcome.id)
+                    ? outcome.type === "design"
+                      ? "border-emerald-500 bg-emerald-50 ring-2 ring-emerald-100"
+                      : outcome.type === "transitionary"
+                        ? "border-purple-500 bg-purple-50 ring-2 ring-purple-100"
+                        : "border-slate-600 bg-slate-50 ring-2 ring-slate-100"
+                    : "border-gray-200 bg-white hover:border-gray-300 shadow-sm"
+                }`}
+              >
+                <div className="flex justify-between items-start gap-3">
+                  <h3 className="font-bold text-lg">{outcome.title}</h3>
+                  {selectedOutcomes.includes(outcome.id) && (
+                    <Icon
+                      name="check-circle-2"
+                      size={20}
+                      className={outcome.type === "design" ? "text-emerald-600" : outcome.type === "transitionary" ? "text-purple-600" : "text-slate-600"}
+                    />
+                  )}
                 </div>
-            );
+                <p className="text-sm text-gray-600 mt-1 leading-relaxed italic">{outcome.definition}</p>
+                <div className="flex items-center gap-2 mt-4">
+                  <span className={`px-2 py-0.5 text-[10px] rounded uppercase font-bold tracking-wider ${
+                    outcome.type === "design" ? "bg-emerald-200 text-emerald-800" : outcome.type === "transitionary" ? "bg-purple-200 text-purple-800" : "bg-slate-700 text-white"
+                  }`}>
+                    {measureLabel(outcome.type)}
+                  </span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      );
 
-            const EvaluationKitView = () => (
-                <div className="space-y-8 animate-in">
-                    <div className="flex justify-between items-center print:hidden">
-                        <div>
-                            <h2 className="text-2xl font-bold">Evaluation Kit</h2>
-                            <p className="text-sm text-gray-500">Resource guide and protocols mapping all PDF topics to digital resources.</p>
-                        </div>
-                        <button onClick={() => window.print()} className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-700 flex items-center gap-2 shadow-sm transition-colors">
-                            <Icon name="file-text" size={16} /> Print/Export PDF
-                        </button>
+      const StakeholderView = () => (
+        <div className="space-y-6 animate-in">
+          <div>
+            <h2 className="text-2xl font-bold">Stakeholders Required to Evaluate</h2>
+            <p className="text-gray-600">Gather perspectives from key stakeholder groups identified in the framework.</p>
+          </div>
+          <div className="space-y-4">
+            {getSelectedData.map((outcome) => {
+              const tone = colorStyles[outcome.type];
+              return (
+                <div key={outcome.id} className={`bg-white rounded-xl border shadow-sm overflow-hidden ${tone.card}`}>
+                  <div className={`px-4 py-2 border-b flex items-center justify-between ${tone.header}`}>
+                    <div className="flex items-center gap-2">
+                      <div className={`w-3 h-3 rounded-sm ${tone.solid}`} />
+                      <span className={`font-bold text-sm uppercase tracking-tight ${tone.accent}`}>{outcome.title}</span>
                     </div>
-
-                    <div className="hidden print:block mb-8 border-b-2 border-gray-900 pb-4">
-                        <h1 className="text-3xl font-black">Implementation Evaluation Protocols</h1>
-                        <p className="text-gray-600 mt-1">Full Content Mapping: Mid-Design Framework (V1.0 IRB-Ready)</p>
-                    </div>
-
-                    {getSelectedData().map((outcome) => (
-                        <div key={outcome.id} className={`bg-white rounded-xl border-2 overflow-hidden shadow-sm mb-10 break-inside-avoid ${
-                            outcome.type === "design" ? "border-emerald-100" : 
-                            outcome.type === "transitionary" ? "border-purple-100" : "border-slate-200"
-                        }`}>
-                            <div className={`p-4 border-b flex justify-between items-center ${
-                                outcome.type === "design" ? "bg-emerald-50 border-emerald-100" : 
-                                outcome.type === "transitionary" ? "bg-purple-50 border-purple-100" : "bg-slate-100 border-slate-200"
-                            }`}>
-                                <div>
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-500">Implementation Outcome</p>
-                                    <h3 className="font-bold text-2xl text-gray-900">{outcome.title}</h3>
-                                    <p className="text-sm text-gray-600 mt-1 max-w-3xl">{outcome.definition}</p>
-                                </div>
-                                <span className={`px-2 py-1 text-[10px] rounded uppercase font-bold border ${
-                                    outcome.type === "design" ? "bg-white border-emerald-200 text-emerald-700" : 
-                                    outcome.type === "transitionary" ? "bg-white border-purple-200 text-purple-700" : "bg-slate-700 border-slate-700 text-white"
-                                }`}>
-                                    {outcome.type === "design" ? "Design Focused" : 
-                                     outcome.type === "transitionary" ? "Transitionary" : "Strategy Focused"}
-                                </span>
-                            </div>
-
-                            <div className="p-6 grid grid-cols-1 md:grid-cols-12 gap-8">
-                                <div className="md:col-span-3">
-                                    <h4 className={`text-[10px] font-black uppercase tracking-widest mb-3 flex items-center gap-1 ${
-                                        outcome.type === "design" ? "text-emerald-700" : 
-                                        outcome.type === "transitionary" ? "text-purple-700" : "text-slate-700"
-                                    }`}>
-                                        <Icon name="users" size={12} /> Stakeholders
-                                    </h4>
-                                    <div className="space-y-2">
-                                        {outcome.stakeholders.map((s, idx) => (
-                                            <div key={idx} className="flex items-start gap-2 text-[13px] font-bold text-gray-800 leading-tight">
-                                                <div className={`min-w-[4px] h-4 rounded-full mt-0.5 ${
-                                                    outcome.type === "design" ? "bg-emerald-400" : 
-                                                    outcome.type === "transitionary" ? "bg-purple-400" : "bg-slate-400"
-                                                }`} />
-                                                {s}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <div className="md:col-span-5 border-l border-gray-100 pl-0 md:pl-6">
-                                    <h4 className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-3 flex items-center gap-1">
-                                        <Icon name="help-circle" size={12} /> Interview Topics (Full List)
-                                    </h4>
-                                    <ul className="space-y-2">
-                                        {outcome.topics.map((t, i) => (
-                                            <li key={i} className="flex gap-2 text-sm text-gray-700 italic leading-snug">
-                                                <div className="min-w-1.5 h-1.5 rounded-full bg-blue-300 mt-1.5" />
-                                                "{t}"
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-
-                                <div className="md:col-span-4 border-l border-gray-100 pl-0 md:pl-6">
-                                    <h4 className="text-[10px] font-black text-purple-700 uppercase tracking-widest mb-3 flex items-center gap-1">
-                                        <Icon name="clipboard-check" size={12} /> Evaluation Strategies
-                                    </h4>
-                                    <div className="space-y-3">
-                                        <div>
-                                            <p className="text-[10px] font-bold text-gray-400 uppercase mb-2">Instruments</p>
-                                            {outcome.strategies.map((s, i) => (
-                                                <a key={i} href={s.url} target="_blank" rel="noopener noreferrer" className="bg-purple-50 text-purple-900 p-2 rounded text-[12px] font-medium flex items-center justify-between gap-2 border border-purple-100 hover:bg-purple-100 transition-colors group mb-2 print:border-none print:p-0 print:bg-transparent">
-                                                    <div className="flex items-center gap-2">
-                                                        <Icon name="file-text" size={13} className="opacity-70 print:hidden text-purple-600" /> {s.name}
-                                                    </div>
-                                                    <Icon name="external-link" size={13} className="opacity-0 group-hover:opacity-100 transition-opacity print:hidden text-purple-400" />
-                                                </a>
-                                            ))}
-                                        </div>
-                                        {outcome.altEvidence && (
-                                            <div>
-                                                <p className="text-[10px] font-bold text-gray-400 uppercase mb-2">Observation/Reviews</p>
-                                                {outcome.altEvidence.map((ae, i) => (
-                                                    <a key={i} href={ae.url} target="_blank" rel="noopener noreferrer" className="bg-indigo-50 text-indigo-900 p-2 rounded text-[12px] font-medium flex items-center justify-between gap-2 border border-indigo-100 hover:bg-indigo-100 transition-colors group print:bg-transparent print:p-0 print:border-none">
-                                                        <div className="flex items-center gap-2">
-                                                            <span className="print:hidden text-indigo-500"><Icon name={ae.icon} size={13} /></span> {ae.name}
-                                                        </div>
-                                                        {ae.url !== "#" && <Icon name="external-link" size={13} className="opacity-0 group-hover:opacity-100 transition-opacity print:hidden text-indigo-400" />}
-                                                    </a>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <span className={`text-[10px] px-2 py-0.5 rounded font-bold ${tone.badge}`}>{outcome.stakeholders.length} Roles Required</span>
+                  </div>
+                  <div className="divide-y divide-gray-100 grid grid-cols-1 md:grid-cols-2">
+                    {outcome.stakeholders.map((s, idx) => (
+                      <div key={idx} className="p-3 flex items-center gap-3 text-sm font-medium text-gray-700 bg-white">
+                        <div className={`w-1.5 h-1.5 rounded-full ${tone.solid}`} />
+                        {s}
+                      </div>
                     ))}
+                  </div>
                 </div>
-            );
+              );
+            })}
+          </div>
+        </div>
+      );
 
+      const EvaluationKitView = () => (
+        <div className="space-y-8 animate-in">
+          <div className="flex justify-between items-center print:hidden">
+            <div>
+              <h2 className="text-2xl font-bold">Evaluation Kit</h2>
+              <p className="text-sm text-gray-500">Resource guide and full protocol mapping interview topics, sample questions, strategies, and references.</p>
+            </div>
+            <button onClick={() => window.print()} className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-700 flex items-center gap-2 shadow-sm transition-colors">
+              <Icon name="file-text" size={16} /> Print/Export PDF
+            </button>
+          </div>
+
+          <div className="print-front-page print-only border-b-2 border-gray-900 pb-6">
+            <h1 className="text-3xl font-black tracking-tight">Mid-Design Evaluation Framework</h1>
+            <p className="text-gray-700 mt-3 text-sm leading-relaxed max-w-4xl">
+              This Mid-Design Implementation Evaluation Framework is a structured decision-support tool developed to assess key implementation outcomes of medical intervention innovations before full-scale implementation. The framework evaluates feasibility, acceptability, appropriateness, adoption, implementation cost, fidelity, penetration, and sustainability. The purpose is to identify potential implementation barriers, integration challenges, and resource demands during early or mid-stage design, thereby supporting proactive refinement before clinical rollout.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+              <div className="border border-gray-300 rounded-xl p-4">
+                <h3 className="font-bold text-sm uppercase tracking-wide">Design-Focused</h3>
+                <p className="text-sm text-gray-700 mt-2">Lighter-coded outcomes relate to how the intervention itself is designed and are more directly measurable in mid-design evaluation.</p>
+              </div>
+              <div className="border border-gray-300 rounded-xl p-4">
+                <h3 className="font-bold text-sm uppercase tracking-wide">Transitionary</h3>
+                <p className="text-sm text-gray-700 mt-2">Adoption bridges design and deployment by capturing willingness, early uptake conditions, and decision readiness.</p>
+              </div>
+              <div className="border border-gray-300 rounded-xl p-4">
+                <h3 className="font-bold text-sm uppercase tracking-wide">Strategy-Focused</h3>
+                <p className="text-sm text-gray-700 mt-2">Darker-coded outcomes relate to implementation strategy and maintenance. They are less direct in mid-design, but useful as exploratory considerations.</p>
+              </div>
+            </div>
+          </div>
+
+          {getSelectedData.map((outcome) => {
+            const tone = colorStyles[outcome.type];
             return (
-                <div className="min-h-screen bg-gray-50 text-gray-900 p-4 md:p-8">
-                    <div className="max-w-6xl mx-auto">
-                        <header className="mb-10 text-center print:hidden">
-                            <h1 className="text-3xl font-black tracking-tight text-gray-900 md:text-4xl">Mid-Design Evaluation Tool</h1>
-                            <p className="text-gray-500 mt-2 font-medium">
-                                A structured decision-support tool to proactively assess implementation outcomes and refine medical innovations before full-scale rollout. <br />@Chuwen Zheng
-                            </p>
-                        </header>
-
-                        <div className="flex bg-white p-1 rounded-xl shadow-sm border border-gray-200 mb-8 sticky top-4 z-10 overflow-x-auto print:hidden">
-                            <button onClick={() => setView("selection")} className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-bold transition-all min-w-[120px] ${view === "selection" ? "bg-indigo-600 text-white shadow-md" : "text-gray-500 hover:bg-gray-100"}`}>
-                                <Icon name="settings" size={18} /> 1. Outcomes
-                            </button>
-                            <button disabled={selectedOutcomes.length === 0} onClick={() => setView("stakeholders")} className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-bold transition-all min-w-[120px] ${view === "stakeholders" ? "bg-indigo-600 text-white shadow-md" : "text-gray-500 hover:bg-gray-100 disabled:opacity-30"}`}>
-                                <Icon name="users" size={18} /> 2. Stakeholders
-                            </button>
-                            <button disabled={selectedOutcomes.length === 0} onClick={() => setView("fieldkit")} className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-bold transition-all min-w-[120px] ${view === "fieldkit" ? "bg-indigo-600 text-white shadow-md" : "text-gray-500 hover:bg-gray-100 disabled:opacity-30"}`}>
-                                <Icon name="clipboard-check" size={18} /> 3. Field Kit
-                            </button>
-                        </div>
-
-                        <main className="mb-32">
-                            {view === "selection" && <SelectionView />}
-                            {view === "stakeholders" && <StakeholderView />}
-                            {view === "fieldkit" && <EvaluationKitView />}
-                        </main>
-
-                        <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-gray-200 flex justify-center z-20 print:hidden">
-                            <div className="max-w-5xl w-full flex justify-between items-center">
-                                <div className="hidden md:block"><p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Full-Framework Integrated (V1.0)</p></div>
-                                <div className="flex gap-4 w-full md:w-auto">
-                                    {view !== "selection" && (
-                                        <button onClick={() => setView(view === "fieldkit" ? "stakeholders" : "selection")} className="flex-1 md:flex-none border border-gray-300 text-gray-700 px-6 py-2 rounded-full font-bold hover:bg-gray-50 transition-colors">Back</button>
-                                    )}
-                                    {view !== "fieldkit" && (
-                                        <button disabled={selectedOutcomes.length === 0} onClick={() => setView(view === "selection" ? "stakeholders" : "fieldkit")} className="flex-1 md:flex-none bg-indigo-600 text-white px-8 py-2 rounded-full flex items-center justify-center gap-2 font-bold disabled:opacity-50 transition-all hover:bg-indigo-700 shadow-lg shadow-indigo-200">
-                                            {view === "selection" ? "Review Stakeholders" : "Generate Field Kit"} <Icon name="chevron-right" size={18} />
-                                        </button>
-                                    )}
-                                </div>
-                            </div>
-                        </footer>
-                    </div>
+              <section key={outcome.id} className={`print-page bg-white rounded-xl border-2 overflow-hidden shadow-sm ${tone.card}`}>
+                <div className={`p-4 border-b flex justify-between items-center ${tone.header}`}>
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-500">Implementation Outcome</p>
+                    <h3 className="font-bold text-2xl text-gray-900">{outcome.title}</h3>
+                    <p className="text-sm text-gray-600 mt-1 max-w-4xl leading-relaxed">{outcome.definition}</p>
+                  </div>
+                  <span className={`px-2 py-1 text-[10px] rounded uppercase font-bold border ${tone.pill}`}>
+                    {typeLabel(outcome.type)}
+                  </span>
                 </div>
-            );
-        };
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
+                <div className="p-5 grid grid-cols-1 md:grid-cols-12 gap-6">
+                  <div className="md:col-span-3">
+                    <h4 className={`text-[10px] font-black uppercase tracking-widest mb-3 flex items-center gap-1 ${tone.accent}`}>
+                      <Icon name="users" size={12} /> Stakeholders
+                    </h4>
+                    <div className="space-y-2">
+                      {outcome.stakeholders.map((s, idx) => (
+                        <div key={idx} className="flex items-start gap-2 text-[13px] font-semibold text-gray-800 leading-tight">
+                          <div className={`min-w-[4px] h-4 rounded-full mt-0.5 ${tone.solid}`} />
+                          {s}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="md:col-span-5 border-l border-gray-100 pl-0 md:pl-5">
+                    <h4 className="text-[10px] font-black text-blue-700 uppercase tracking-widest mb-3 flex items-center gap-1">
+                      <Icon name="help-circle" size={12} /> Interview Topics and Sample Questions
+                    </h4>
+                    <div className="space-y-3">
+                      {outcome.topics.map((topic, i) => <TopicAccordion key={i} topic={topic} tone={outcome.type} />)}
+                    </div>
+                  </div>
+
+                  <div className="md:col-span-4 border-l border-gray-100 pl-0 md:pl-5">
+                    <h4 className="text-[10px] font-black text-purple-700 uppercase tracking-widest mb-3 flex items-center gap-1">
+                      <Icon name="clipboard-check" size={12} /> Evaluation Strategies
+                    </h4>
+                    <div className="space-y-3">
+                      <div>
+                        <p className="text-[10px] font-bold text-gray-400 uppercase mb-2">Instruments</p>
+                        <div className="space-y-3">
+                          {outcome.strategies.map((s, i) => <StrategyAccordion key={i} item={s} color="purple" />)}
+                        </div>
+                      </div>
+
+                      {outcome.altEvidence && (
+                        <div>
+                          <p className="text-[10px] font-bold text-gray-400 uppercase mb-2">Observation/Reviews</p>
+                          <div className="space-y-3">
+                            {outcome.altEvidence.map((ae, i) => <StrategyAccordion key={i} item={ae} color="indigo" />)}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </section>
+            );
+          })}
+
+          <section className="print-page bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+            <div className="border-b border-gray-200 pb-3 mb-4">
+              <h2 className="text-2xl font-bold">References</h2>
+              <p className="text-sm text-gray-500 mt-1">Full reference list used in the field kit.</p>
+            </div>
+            <div className="space-y-3 text-[13px] leading-relaxed text-gray-800">
+              {REFERENCES.map((ref, idx) => (
+                <p key={idx}><span className="font-semibold mr-2">{idx + 1}.</span>{ref}</p>
+              ))}
+            </div>
+          </section>
+        </div>
+      );
+
+      return (
+        <div className="min-h-screen bg-gray-50 text-gray-900 p-4 md:p-8">
+          <div className="max-w-6xl mx-auto">
+            <header className="mb-10 text-center print:hidden">
+              <h1 className="text-3xl font-black tracking-tight text-gray-900 md:text-4xl">Mid-Design Evaluation Tool</h1>
+              <p className="text-gray-500 mt-2 font-medium">
+                A structured decision-support tool to proactively assess implementation outcomes and refine medical innovations before full-scale rollout. <br />@Chuwen Zheng
+              </p>
+            </header>
+
+            <div className="flex bg-white p-1 rounded-xl shadow-sm border border-gray-200 mb-8 sticky top-4 z-10 overflow-x-auto print:hidden">
+              <button onClick={() => setView("selection")} className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-bold transition-all min-w-[120px] ${view === "selection" ? "bg-indigo-600 text-white shadow-md" : "text-gray-500 hover:bg-gray-100"}`}>
+                <Icon name="settings" size={18} /> 1. Outcomes
+              </button>
+              <button disabled={selectedOutcomes.length === 0} onClick={() => setView("stakeholders")} className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-bold transition-all min-w-[120px] ${view === "stakeholders" ? "bg-indigo-600 text-white shadow-md" : "text-gray-500 hover:bg-gray-100 disabled:opacity-30"}`}>
+                <Icon name="users" size={18} /> 2. Stakeholders
+              </button>
+              <button disabled={selectedOutcomes.length === 0} onClick={() => setView("fieldkit")} className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-bold transition-all min-w-[120px] ${view === "fieldkit" ? "bg-indigo-600 text-white shadow-md" : "text-gray-500 hover:bg-gray-100 disabled:opacity-30"}`}>
+                <Icon name="clipboard-check" size={18} /> 3. Field Kit
+              </button>
+            </div>
+
+            <main className="mb-32">
+              {view === "selection" && <SelectionView />}
+              {view === "stakeholders" && <StakeholderView />}
+              {view === "fieldkit" && <EvaluationKitView />}
+            </main>
+
+            <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-gray-200 flex justify-center z-20 print:hidden">
+              <div className="max-w-5xl w-full flex justify-between items-center">
+                <div className="hidden md:block"><p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Full-Framework Integrated (V2.0)</p></div>
+                <div className="flex gap-4 w-full md:w-auto">
+                  {view !== "selection" && (
+                    <button onClick={() => setView(view === "fieldkit" ? "stakeholders" : "selection")} className="flex-1 md:flex-none border border-gray-300 text-gray-700 px-6 py-2 rounded-full font-bold hover:bg-gray-50 transition-colors">Back</button>
+                  )}
+                  {view !== "fieldkit" && (
+                    <button disabled={selectedOutcomes.length === 0} onClick={() => setView(view === "selection" ? "stakeholders" : "fieldkit")} className="flex-1 md:flex-none bg-indigo-600 text-white px-8 py-2 rounded-full flex items-center justify-center gap-2 font-bold disabled:opacity-50 transition-all hover:bg-indigo-700 shadow-lg shadow-indigo-200">
+                      {view === "selection" ? "Review Stakeholders" : "Generate Field Kit"} <Icon name="chevron-right" size={18} />
+                    </button>
+                  )}
+                </div>
+              </div>
+            </footer>
+          </div>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
 </body>
 </html>
