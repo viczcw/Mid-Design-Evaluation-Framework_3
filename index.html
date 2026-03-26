@@ -634,7 +634,7 @@
               </div>
               <div className="border border-gray-300 rounded-xl p-4">
                 <h3 className="font-bold text-sm uppercase tracking-wide">Transitionary</h3>
-                <p className="text-sm text-gray-700 mt-2">Adoption bridges design and deployment by capturing willingness, early uptake conditions, and decision readiness.</p>
+                <p className="text-sm text-gray-700 mt-2">Purple-coded outcomes bridge design and deployment by capturing willingness, early uptake conditions, and decision readiness.</p>
               </div>
               <div className="border border-gray-300 rounded-xl p-4">
                 <h3 className="font-bold text-sm uppercase tracking-wide">Strategy-Focused</h3>
@@ -735,13 +735,13 @@
 
             <div className="flex bg-white p-1 rounded-xl shadow-sm border border-gray-200 mb-8 sticky top-4 z-10 overflow-x-auto print:hidden">
               <button onClick={() => setView("selection")} className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-bold transition-all min-w-[120px] ${view === "selection" ? "bg-indigo-600 text-white shadow-md" : "text-gray-500 hover:bg-gray-100"}`}>
-                <Icon name="settings" size={18} /> 1. Outcomes
+                <Icon name="settings" size={18} /> 1. Implementation Outcomes
               </button>
               <button disabled={selectedOutcomes.length === 0} onClick={() => setView("stakeholders")} className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-bold transition-all min-w-[120px] ${view === "stakeholders" ? "bg-indigo-600 text-white shadow-md" : "text-gray-500 hover:bg-gray-100 disabled:opacity-30"}`}>
-                <Icon name="users" size={18} /> 2. Stakeholders
+                <Icon name="users" size={18} /> 2. Stakeholders Required to Evaluate
               </button>
               <button disabled={selectedOutcomes.length === 0} onClick={() => setView("fieldkit")} className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-bold transition-all min-w-[120px] ${view === "fieldkit" ? "bg-indigo-600 text-white shadow-md" : "text-gray-500 hover:bg-gray-100 disabled:opacity-30"}`}>
-                <Icon name="clipboard-check" size={18} /> 3. Field Kit
+                <Icon name="clipboard-check" size={18} /> 3. Evaluation Strategies
               </button>
             </div>
 
