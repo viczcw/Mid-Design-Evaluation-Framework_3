@@ -76,6 +76,8 @@
       "Rapley T, Girling M, Mair FS, et al. Improving the normalization of complex interventions: part 1 - development of the NoMAD instrument for assessing implementation work based on normalization process theory (NPT). BMC Med Res Methodol. 2018;18(1):133. doi:10.1186/s12874-018-0590-y",
       "Finch TL, Girling M, May CR, et al. Improving the normalization of complex interventions: part 2 - validation of the NoMAD instrument for assessing implementation work based on normalization process theory (NPT). BMC Med Res Methodol. 2018;18(1):135. doi:10.1186/s12874-018-0591-x",
       "Feldstein AC, Glasgow RE. A Practical, Robust Implementation and Sustainability Model (PRISM) for Integrating Research Findings into Practice. Jt Comm J Qual Patient Saf. 2008;34(4):228-243. doi:10.1016/S1553-7250(08)34030-6"
+      "Carrion, A. J., Miles, J. D., Thompson, M. D., Journee, B., & Nelson, E. (2021). Program Evaluation Through the Use of Logic Models. Currents in Pharmacy Teaching and Learning, 13(7), 789–795. https://doi.org/10.1016/j.cptl.2021.03.006"
+      "Savaya, R., & Waysman, M. (2005). The Logic Model: A Tool for Incorporating Theory in Development and Evaluation of Programs. Administration in Social Work, 29(2), 85–103. https://doi.org/10.1300/J147v29n02_06"
     ];
 
     const FRAMEWORK_DATA = [
@@ -301,9 +303,14 @@
           { title: "Maintenance and leadership continuity", question: "If the current project champion left, is there someone else who could keep this medical innovation moving?" },
           { title: "External environmental pressure", question: "Would payer requirements, accreditation expectations, or reporting demands help keep this medical innovation in place over time?" }
         ],
-        quantitativeStrategies: [],
+        quantitativeStrategies: [
+          { name: "Program Evaluation Through the Use of Logic Models", citation: "23,24", referenceUrl: "https://doi.org/10.1300/J147v29n02_06", referenceLabel: "Reference",
+            description: "Use a logic model to map the relationships among invested resources, activities, outputs, and short-, intermediate-, and long-term outcomes expected from a program. It provides a systematic and visual way to link program components to intended results, helping evaluators clarify how and why a program is expected to work. For sustainability, a logic model can help identify measurable indicators such as the continued availability of key resources, the maintenance of core activities, and the persistence of intended outcomes over time. This makes it a useful strategy for structuring sustainability evaluation and assessing whether an intervention is likely to be maintained in practice."
+          }
+
+        ],
         qualitativeStrategies: [
-          { name: "Practical, Robust Implementation and Sustainability Model (PRISM)", citation: "22", referenceUrl: "https://doi.org/10.1016/S1553-7250(08)34030-6", description: <>Use PRISM to organize interviews for predicting the sustainability of a medical innovation by assessing infrastructure, expectations, adaptability, usability, and external pressure.</> },
+          { name: "Practical, Robust Implementation and Sustainability Model (PRISM)", citation: "22", referenceUrl: "https://doi.org/10.1300/J147v29n02_06", description: <>Use PRISM to organize interviews for predicting the sustainability of a medical innovation by assessing infrastructure, expectations, adaptability, usability, and external pressure.</> },
           { name: "Document Evidence Review", citation: "22", referenceUrl: "https://doi.org/10.1016/S1553-7250(08)34030-6", description: <>Review budget documents, policy drafts, standard operating procedures, workflow maps, and staffing plans to assess whether sustainability is supported by formal structures and operating routines.</> }
         ]
       }
