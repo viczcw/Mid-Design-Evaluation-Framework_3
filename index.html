@@ -442,33 +442,120 @@
       }, [selectedOutcomes]);
 
       const SelectionView = () => (
-        <div className="space-y-4 animate-in">
-          <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6">
-            <h2 className="text-gray-900 font-bold flex items-center gap-2 mb-4"><Icon name="info" size={18} className="text-blue-600" /> Framework Instructions</h2>
-            <p className="text-sm text-gray-600 mb-4 leading-relaxed">This Mid-Design Implementation Evaluation Framework is a structured decision-support tool developed to assess key implementation outcomes of medical innovations before full-scale implementation. </p>
-            <p className="text-sm text-gray-600 mb-4 leading-relaxed italic">To navigate the framework, select whichever implementation outcomes you are most interested in exploring. For reviewers who would like to examine the framework content more comprehensively, we suggest selecting all eight implementation outcomes to view the full set of framework content. </p>
-            <div className="grid md:grid-cols-3 gap-6 text-sm">
-              <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-100"><h3 className="font-bold text-emerald-800 flex items-center gap-1.5 mb-1"><div className="w-2 h-2 rounded-full bg-emerald-500" /> Design-Focused</h3><p className="text-emerald-700 leading-relaxed">Outcomes related to innovation design. These are <strong>directly measurable</strong> in mid-design evaluation.</p></div>
-              <div className="p-3 bg-purple-50 rounded-lg border border-purple-100"><h3 className="font-bold text-purple-800 flex items-center gap-1.5 mb-1"><div className="w-2 h-2 rounded-full bg-purple-500" /> Transitionary</h3><p className="text-purple-700 leading-relaxed">Outcomes that bridge design and deployment by capturing readiness and early uptake conditions.</p></div>
-              <div className="p-3 bg-slate-100 rounded-lg border border-slate-200"><h3 className="font-bold text-slate-800 flex items-center gap-1.5 mb-1"><div className="w-2 h-2 rounded-full bg-slate-500" /> Strategy-Focused</h3><p className="text-slate-700 leading-relaxed">Outcomes related to how implementation is carried out and maintained. These can be used as exploratory considerations during mid-design. </p></div>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {FRAMEWORK_DATA.map((outcome) => (
-              <button key={outcome.id} onClick={() => toggleOutcome(outcome.id)} className={`p-4 rounded-xl border-2 text-left transition-all relative group ${selectedOutcomes.includes(outcome.id) ? outcome.type === "design" ? "border-emerald-500 bg-emerald-50 ring-2 ring-emerald-100" : outcome.type === "transitionary" ? "border-purple-500 bg-purple-50 ring-2 ring-purple-100" : "border-slate-600 bg-slate-50 ring-2 ring-slate-100" : "border-gray-200 bg-white hover:border-gray-300 shadow-sm"}`}>
-                <div className="flex justify-between items-start gap-3">
-                  <h3 className="font-bold text-lg">{outcome.title}</h3>
-                  {selectedOutcomes.includes(outcome.id) && <Icon name="check-circle-2" size={20} className={outcome.type === "design" ? "text-emerald-600" : outcome.type === "transitionary" ? "text-purple-600" : "text-slate-600"} />}
-                </div>
-                <p className="text-sm text-gray-600 mt-1 leading-relaxed italic">{outcome.definition}</p>
-                <div className="flex items-center gap-2 mt-4"><span className={`px-2 py-0.5 text-[10px] rounded uppercase font-bold tracking-wider ${outcome.type === "design" ? "bg-emerald-200 text-emerald-800" : outcome.type === "transitionary" ? "bg-purple-200 text-purple-800" : "bg-slate-700 text-white"}`}>{measureLabel(outcome.type)}</span></div>
-              </button>
-            ))}
-          </div>
-          <ReferenceReminder />
-    </div>
+  <div className="space-y-4 animate-in">
+    <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6">
+      <h2 className="text-gray-900 font-bold flex items-center gap-2 mb-4">
+        <Icon name="info" size={18} className="text-blue-600" /> Framework Instructions
+      </h2>
+
+      <p className="text-sm text-gray-600 mb-4 leading-relaxed">
+        This Mid-Design Implementation Evaluation Framework is a structured decision-support tool developed to assess key implementation outcomes of medical innovations before full-scale implementation.
+      </p>
+
+      <p className="text-sm text-gray-600 mb-4 leading-relaxed italic">
+        To navigate the framework, select whichever implementation outcomes you are most interested in exploring. For reviewers who would like to examine the framework content more comprehensively, we suggest selecting all eight implementation outcomes to view the full set of framework content.
+      </p>
+
+      <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 mb-4">
+        <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+          <p>
+            <span className="font-semibold text-gray-900">Implementation outcomes</span> are the key conditions or signals used to judge how well an intervention may work in practice. In this framework, they help design teams think ahead about issues such as whether an innovation seems feasible, acceptable, appropriate, adoptable, sustainable, and practical to implement in a real-world setting.
+          </p>
+          <p>
+            <span className="font-semibold text-gray-900">Interest-holders</span> are the people or groups whose perspectives, experiences, or responsibilities are important for understanding those implementation outcomes. They may include future users, patients, implementers, decision-makers, or other groups who would interact with, support, approve, or be affected by the innovation.
+          </p>
+          <p>
+            <span className="font-semibold text-gray-900">Evaluation strategies</span> are the methods that can be used to gather information about the implementation outcomes. In this framework, they include qualitative strategies, such as semi-structured interviews or observation-based approaches, and quantitative strategies, such as surveys, structured instruments, or other measurement tools.
+          </p>
         </div>
-      );
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-6 text-sm">
+        <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-100">
+          <h3 className="font-bold text-emerald-800 flex items-center gap-1.5 mb-1">
+            <div className="w-2 h-2 rounded-full bg-emerald-500" /> Design-Focused
+          </h3>
+          <p className="text-emerald-700 leading-relaxed">
+            Outcomes related to innovation design. These are <strong>directly measurable</strong> in mid-design evaluation.
+          </p>
+        </div>
+
+        <div className="p-3 bg-purple-50 rounded-lg border border-purple-100">
+          <h3 className="font-bold text-purple-800 flex items-center gap-1.5 mb-1">
+            <div className="w-2 h-2 rounded-full bg-purple-500" /> Transitionary
+          </h3>
+          <p className="text-purple-700 leading-relaxed">
+            Outcomes that bridge design and deployment by capturing readiness and early uptake conditions.
+          </p>
+        </div>
+
+        <div className="p-3 bg-slate-100 rounded-lg border border-slate-200">
+          <h3 className="font-bold text-slate-800 flex items-center gap-1.5 mb-1">
+            <div className="w-2 h-2 rounded-full bg-slate-500" /> Strategy-Focused
+          </h3>
+          <p className="text-slate-700 leading-relaxed">
+            Outcomes related to how implementation is carried out and maintained. These can be used as exploratory considerations during mid-design.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {FRAMEWORK_DATA.map((outcome) => (
+        <button
+          key={outcome.id}
+          onClick={() => toggleOutcome(outcome.id)}
+          className={`p-4 rounded-xl border-2 text-left transition-all relative group ${
+            selectedOutcomes.includes(outcome.id)
+              ? outcome.type === "design"
+                ? "border-emerald-500 bg-emerald-50 ring-2 ring-emerald-100"
+                : outcome.type === "transitionary"
+                ? "border-purple-500 bg-purple-50 ring-2 ring-purple-100"
+                : "border-slate-600 bg-slate-50 ring-2 ring-slate-100"
+              : "border-gray-200 bg-white hover:border-gray-300 shadow-sm"
+          }`}
+        >
+          <div className="flex justify-between items-start gap-3">
+            <h3 className="font-bold text-lg">{outcome.title}</h3>
+            {selectedOutcomes.includes(outcome.id) && (
+              <Icon
+                name="check-circle-2"
+                size={20}
+                className={
+                  outcome.type === "design"
+                    ? "text-emerald-600"
+                    : outcome.type === "transitionary"
+                    ? "text-purple-600"
+                    : "text-slate-600"
+                }
+              />
+            )}
+          </div>
+
+          <p className="text-sm text-gray-600 mt-1 leading-relaxed italic">
+            {outcome.definition}
+          </p>
+
+          <div className="flex items-center gap-2 mt-4">
+            <span
+              className={`px-2 py-0.5 text-[10px] rounded uppercase font-bold tracking-wider ${
+                outcome.type === "design"
+                  ? "bg-emerald-200 text-emerald-800"
+                  : outcome.type === "transitionary"
+                  ? "bg-purple-200 text-purple-800"
+                  : "bg-slate-700 text-white"
+              }`}
+            >
+              {measureLabel(outcome.type)}
+            </span>
+          </div>
+        </button>
+      ))}
+    </div>
+
+    <ReferenceReminder />
+  </div>
+);
 
       const StakeholderView = () => {
         const OutcomeCenteredInterestHolderView = () => (
