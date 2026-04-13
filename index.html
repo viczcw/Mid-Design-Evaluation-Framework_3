@@ -335,7 +335,9 @@
           <button onClick={() => setOpen(!open)} className="w-full text-left p-3 flex items-start justify-between gap-3 screen-only">
             <div>
               <p className="text-sm font-bold text-gray-900 leading-snug">{topic.title}</p>
-              <p className="text-xs text-blue-700 mt-1">Click to view example question</p>
+              {!open && (
+              <p className="text-xs text-blue-700 mt-1">Click to view sample question</p>
+              )}
             </div>
             <Icon name={open ? "chevron-up" : "chevron-down"} size={16} className="text-blue-600 mt-0.5" />
           </button>
@@ -657,60 +659,151 @@
         </div>
       );
 
+      
       const CompleteFrameworkView = () => (
         <div className="space-y-8 animate-in">
-          <div className="flex justify-between items-center print:hidden"><div><h2 className="text-2xl font-bold">The Complete Mid-Design Evaluation Framework</h2><p className="text-sm text-gray-500">Integrated view of selected implementation outcomes, interest-holders, and evaluation strategies for medical innovations. <Sup>1,2</Sup></p></div><button onClick={() => window.print()} className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-700 flex items-center gap-2 shadow-sm transition-colors"><Icon name="file-text" size={16} /> Print/Export PDF</button></div>
-          <div className="print-page bg-white rounded-xl border border-gray-200 shadow-sm p-6"><h2 className="text-gray-900 font-bold flex items-center gap-2 mb-4"><Icon name="info" size={18} className="text-blue-600" /> Framework Instructions</h2><p className="text-sm text-gray-600 mb-4 leading-relaxed">This Mid-Design Implementation Evaluation Framework is a structured decision-support tool developed to assess key implementation outcomes of medical innovations before full-scale implementation. </p><div className="grid md:grid-cols-3 gap-6 text-sm"><div className="p-3 bg-emerald-50 rounded-lg border border-emerald-100"><h3 className="font-bold text-emerald-800 flex items-center gap-1.5 mb-1"><div className="w-2 h-2 rounded-full bg-emerald-500" /> Design-Focused</h3><p className="text-emerald-700 leading-relaxed">Outcomes related to innovation design. These are <strong>directly measurable</strong> in mid-design evaluation.</p></div><div className="p-3 bg-purple-50 rounded-lg border border-purple-100"><h3 className="font-bold text-purple-800 flex items-center gap-1.5 mb-1"><div className="w-2 h-2 rounded-full bg-purple-500" /> Transitionary</h3><p className="text-purple-700 leading-relaxed">Outcomes that bridge design and deployment by capturing readiness and early uptake conditions.</p></div><div className="p-3 bg-slate-100 rounded-lg border border-slate-200"><h3 className="font-bold text-slate-800 flex items-center gap-1.5 mb-1"><div className="w-2 h-2 rounded-full bg-slate-500" /> Strategy-Focused</h3><p className="text-slate-700 leading-relaxed">Outcomes related to how implementation is carried out and maintained. These can be used as exploratory considerations during mid-design. <Sup>1,2</Sup></p></div></div></div>
+          <div className="flex justify-between items-center print:hidden">
+            <div>
+              <h2 className="text-2xl font-bold">The Complete Mid-Design Evaluation Framework</h2>
+              <p className="text-sm text-gray-500">
+                Integrated view of selected implementation outcomes, interest-holders, and evaluation strategies for medical innovations. <Sup>1,2</Sup>
+              </p>
+            </div>
+            <button
+              onClick={() => window.print()}
+              className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-700 flex items-center gap-2 shadow-sm transition-colors"
+            >
+              <Icon name="file-text" size={16} /> Print/Export PDF
+            </button>
+          </div>
+
+          <div className="print-page bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+            <h2 className="text-gray-900 font-bold flex items-center gap-2 mb-4">
+              <Icon name="info" size={18} className="text-blue-600" /> Framework Instructions
+            </h2>
+
+            <p className="text-sm text-gray-600 mb-4 leading-relaxed">
+              This Mid-Design Implementation Evaluation Framework is a structured decision-support tool developed to assess key implementation outcomes of medical innovations before full-scale implementation.
+            </p>
+
+            <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 mb-4">
+              <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+                <p>
+                  <span className="font-semibold text-gray-900">Implementation outcomes</span> are the key conditions or signals used to judge how well an intervention may work in practice. In this framework, they help design teams think ahead about issues such as whether an innovation seems feasible, acceptable, appropriate, adoptable, sustainable, and practical to implement in a real-world setting.
+                </p>
+                <p>
+                  <span className="font-semibold text-gray-900">Interest-holders</span> are the people or groups whose perspectives, experiences, or responsibilities are important for understanding those implementation outcomes. They may include future users, patients, implementers, decision-makers, or other groups who would interact with, support, approve, or be affected by the innovation.
+                </p>
+                <p>
+                  <span className="font-semibold text-gray-900">Evaluation strategies</span> are the methods that can be used to gather information about the implementation outcomes. In this framework, they include qualitative strategies (i.e., semi-structured interviews or observation-based approaches) and quantitative strategies (i.e., surveys, structured instruments, or other measurement tools).
+                </p>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6 text-sm">
+              <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-100">
+                <h3 className="font-bold text-emerald-800 flex items-center gap-1.5 mb-1">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500" /> Design-Focused
+                </h3>
+                <p className="text-emerald-700 leading-relaxed">
+                  Outcomes related to innovation design. These are <strong>directly measurable</strong> in mid-design evaluation.
+                </p>
+              </div>
+
+              <div className="p-3 bg-purple-50 rounded-lg border border-purple-100">
+                <h3 className="font-bold text-purple-800 flex items-center gap-1.5 mb-1">
+                  <div className="w-2 h-2 rounded-full bg-purple-500" /> Transitionary
+                </h3>
+                <p className="text-purple-700 leading-relaxed">
+                  Outcomes that bridge design and deployment by capturing readiness and early uptake conditions.
+                </p>
+              </div>
+
+              <div className="p-3 bg-slate-100 rounded-lg border border-slate-200">
+                <h3 className="font-bold text-slate-800 flex items-center gap-1.5 mb-1">
+                  <div className="w-2 h-2 rounded-full bg-slate-500" /> Strategy-Focused
+                </h3>
+                <p className="text-slate-700 leading-relaxed">
+                  Outcomes related to how implementation is carried out and maintained. These can be used as exploratory considerations during mid-design. <Sup>1,2</Sup>
+                </p>
+              </div>
+            </div>
+          </div>
+
           {getSelectedData.map((outcome) => {
             const tone = colorStyles[outcome.type];
             return (
               <OutcomeSection key={outcome.id} tone={tone} title={outcome.title} subtitle={<span>{outcome.definition}</span>}>
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                   <div className="md:col-span-3">
-                    <h4 className={`text-[10px] font-black uppercase tracking-widest mb-3 flex items-center gap-1 ${tone.accent}`}><Icon name="users" size={12} /> Interest-Holders Required to Evaluate{outcome.id === "implementation_cost" ? <Sup>8</Sup> : null}</h4>
-                    <div className="space-y-2">{outcome.interestHolders.map((s, idx) => (<div key={idx} className="flex items-start gap-2 text-[13px] font-semibold text-gray-800 leading-tight"><div className={`min-w-[4px] h-4 rounded-full mt-0.5 ${tone.solid}`} />{s}</div>))}</div>
-                  </div>
-                  <div className="md:col-span-5 border-l border-gray-100 pl-0 md:pl-5">
-                    <h4 className="text-[10px] font-black text-blue-700 uppercase tracking-widest mb-3 flex items-center gap-1"><Icon name="help-circle" size={12} /> Qualitative Evaluation Strategies</h4>
-                    <div className="space-y-3">
-                      <div className="rounded-xl border border-blue-100 bg-blue-50/30 p-3">
-                        <h5 className="text-[12px] font-bold text-blue-900 mb-2">Semi-structured interview<Sup>{outcome.interviewCitation}</Sup></h5>
-                        <div className="space-y-3">{outcome.topics.map((topic, i) => <TopicAccordion key={i} topic={topic} />)}</div>
-                      </div>
-                      {outcome.qualitativeStrategies.map((item, i) => <StrategyAccordion key={i} item={item} color="indigo" />)}
+                    <h4 className={`text-[10px] font-black uppercase tracking-widest mb-3 flex items-center gap-1 ${tone.accent}`}>
+                      <Icon name="users" size={12} /> Interest-Holders Required to Evaluate{outcome.id === "implementation_cost" ? <Sup>8</Sup> : null}
+                    </h4>
+                    <div className="space-y-2">
+                      {outcome.interestHolders.map((s, idx) => (
+                        <div key={idx} className="flex items-start gap-2 text-[13px] font-semibold text-gray-800 leading-tight">
+                          <div className={`min-w-[4px] h-4 rounded-full mt-0.5 ${tone.solid}`} />
+                          {s}
+                        </div>
+                      ))}
                     </div>
                   </div>
+
+                  <div className="md:col-span-5 border-l border-gray-100 pl-0 md:pl-5">
+                    <h4 className="text-[10px] font-black text-blue-700 uppercase tracking-widest mb-3 flex items-center gap-1">
+                      <Icon name="help-circle" size={12} /> Qualitative Evaluation Strategies
+                    </h4>
+                    <div className="space-y-3">
+                      <div className="rounded-xl border border-blue-100 bg-blue-50/30 p-3">
+                        <h5 className="text-[12px] font-bold text-blue-900 mb-2">
+                          Semi-structured interview<Sup>{outcome.interviewCitation}</Sup>
+                        </h5>
+                        <div className="space-y-3">
+                          {outcome.topics.map((topic, i) => (
+                            <TopicAccordion key={i} topic={topic} />
+                          ))}
+                        </div>
+                      </div>
+                      {outcome.qualitativeStrategies.map((item, i) => (
+                        <StrategyAccordion key={i} item={item} color="indigo" />
+                      ))}
+                    </div>
+                  </div>
+
                   <div className="md:col-span-4 border-l border-gray-100 pl-0 md:pl-5">
-                    <h4 className="text-[10px] font-black text-purple-700 uppercase tracking-widest mb-3 flex items-center gap-1"><Icon name="clipboard-check" size={12} /> Quantitative Evaluation Strategies</h4>
-                    <div className="space-y-3">{outcome.quantitativeStrategies.length > 0 ? outcome.quantitativeStrategies.map((s, i) => <StrategyAccordion key={i} item={s} color="purple" />) : (<div className="rounded-xl border border-dashed border-gray-200 p-4 text-sm text-gray-500 bg-gray-50">No quantitative strategies listed for this implementation outcome.</div>)}</div>
+                    <h4 className="text-[10px] font-black text-purple-700 uppercase tracking-widest mb-3 flex items-center gap-1">
+                      <Icon name="clipboard-check" size={12} /> Quantitative Evaluation Strategies
+                    </h4>
+                    <div className="space-y-3">
+                      {outcome.quantitativeStrategies.length > 0 ? (
+                        outcome.quantitativeStrategies.map((s, i) => (
+                          <StrategyAccordion key={i} item={s} color="purple" />
+                        ))
+                      ) : (
+                        <div className="rounded-xl border border-dashed border-gray-200 p-4 text-sm text-gray-500 bg-gray-50">
+                          No quantitative strategies listed for this implementation outcome.
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </OutcomeSection>
             );
           })}
-          <section className="print-page bg-white rounded-xl border border-gray-200 shadow-sm p-6"><div className="border-b border-gray-200 pb-3 mb-4"><h2 className="text-2xl font-bold">References</h2><p className="text-sm text-gray-500 mt-1">Full reference list used in the framework.</p></div><div className="space-y-3 text-[13px] leading-relaxed text-gray-800">{REFERENCES.map((ref, idx) => <p key={idx}><span className="font-semibold mr-2">{idx + 1}.</span>{ref}</p>)}</div></section>
-        </div>
-      );
 
-      return (
-        <div className="min-h-screen bg-gray-50 text-gray-900 p-4 md:p-8">
-          <div className="max-w-6xl mx-auto">
-            <header className="mb-10 text-center print:hidden"><h1 className="text-3xl font-black tracking-tight text-gray-900 md:text-4xl">Mid-Design Evaluation Tool</h1><p className="text-gray-500 mt-2 font-medium">A structured decision-support tool to proactively assess implementation outcomes and refine medical innovations before full-scale rollout. <br />@Chuwen Zheng</p></header>
-            <div className="flex bg-white p-1 rounded-xl shadow-sm border border-gray-200 mb-8 sticky top-4 z-10 overflow-x-auto print:hidden">
-              <button onClick={() => setView("selection")} className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-bold transition-all min-w-[120px] ${view === "selection" ? "bg-indigo-600 text-white shadow-md" : "text-gray-500 hover:bg-gray-100"}`}><Icon name="settings" size={18} /> 1. Implementation Outcomes</button>
-              <button disabled={selectedOutcomes.length === 0} onClick={() => setView("stakeholders")} className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-bold transition-all min-w-[120px] ${view === "stakeholders" ? "bg-indigo-600 text-white shadow-md" : "text-gray-500 hover:bg-gray-100 disabled:opacity-30"}`}><Icon name="users" size={18} /> 2. Interest-Holders Required to Evaluate</button>
-              <button disabled={selectedOutcomes.length === 0} onClick={() => setView("strategies")} className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-bold transition-all min-w-[120px] ${view === "strategies" ? "bg-indigo-600 text-white shadow-md" : "text-gray-500 hover:bg-gray-100 disabled:opacity-30"}`}><Icon name="clipboard-check" size={18} /> 3. Evaluation Strategies</button>
-              <button disabled={selectedOutcomes.length === 0} onClick={() => setView("complete")} className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-bold transition-all min-w-[150px] ${view === "complete" ? "bg-indigo-600 text-white shadow-md" : "text-gray-500 hover:bg-gray-100 disabled:opacity-30"}`}><Icon name="layers-3" size={18} /> 4. Complete Framework</button>
+          <section className="print-page bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+            <div className="border-b border-gray-200 pb-3 mb-4">
+              <h2 className="text-2xl font-bold">References</h2>
+              <p className="text-sm text-gray-500 mt-1">Full reference list used in the framework.</p>
             </div>
-            <main className="mb-32">{view === "selection" && <SelectionView />}{view === "stakeholders" && <StakeholderView />}{view === "strategies" && <EvaluationStrategiesView />}{view === "complete" && <CompleteFrameworkView />}</main>
-            <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-gray-200 flex justify-center z-20 print:hidden"><div className="max-w-5xl w-full flex justify-between items-center"><div className="hidden md:block"><p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Full-Framework Integrated (V4.0) </p></div><div className="flex gap-4 w-full md:w-auto">{view !== "selection" && (<button onClick={() => setView(view === "complete" ? "strategies" : view === "strategies" ? "stakeholders" : "selection")} className="flex-1 md:flex-none border border-gray-300 text-gray-700 px-6 py-2 rounded-full font-bold hover:bg-gray-50 transition-colors">Back</button>)}{view !== "complete" && (<button disabled={selectedOutcomes.length === 0} onClick={() => setView(view === "selection" ? "stakeholders" : view === "stakeholders" ? "strategies" : "complete")} className="flex-1 md:flex-none bg-indigo-600 text-white px-8 py-2 rounded-full flex items-center justify-center gap-2 font-bold disabled:opacity-50 transition-all hover:bg-indigo-700 shadow-lg shadow-indigo-200">{view === "selection" ? "Review Interest-Holders" : view === "stakeholders" ? "Review Evaluation Strategies" : "Generate Complete Framework"} <Icon name="chevron-right" size={18} /></button>)}</div></div></footer>
-          </div>
+            <div className="space-y-3 text-[13px] leading-relaxed text-gray-800">
+              {REFERENCES.map((ref, idx) => (
+                <p key={idx}>
+                  <span className="font-semibold mr-2">{idx + 1}.</span>
+                  {ref}
+                </p>
+              ))}
+            </div>
+          </section>
         </div>
       );
-    };
-
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
-  </script>
-</body>
-</html>
