@@ -91,7 +91,7 @@
         interviewCitation: "1–3",
         interestHolders: [
           "Technical experts (i.e., those who can assess the technical feasibility of the intervention)",
-          "Future implementers of the intervention (i.e., those who will support eventual implementation)",
+          "Future implementers of the intervention (i.e., those who may help put the intervention into practice and support its use in the real world)",
           "Future users of the intervention (e.g., health care professionals)"
         ],
         topics: [
@@ -108,8 +108,8 @@
           { name: "Readiness Thinking Tool", citation: "4", referenceUrl: "https://doi.org/10.1177/15248399221080096", instrumentUrl: "https://dissemination-implementation.org/wp-content/uploads/2024/09/Readiness-Thinking-Tool-RTT-_Instrument.docx", instrumentLabel: "Readiness Thinking Survey Link:", description: <>Use the structured Readiness Thinking Questionnaire to assess an organization’s readiness to implement a medical intervention innovation by capturing motivations, innovation-specific capacity, and general capacity.</> }
         ],
         qualitativeStrategies: [
-          { name: "Readiness Thinking Observation Guide", citation: "4", referenceUrl: "https://doi.org/10.1177/15248399221080096", instrumentUrl: "https://dissemination-implementation.org/wp-content/uploads/2024/09/531c7f_dbd8360b53b146b6a4fbffcb321cacfd.pdf", instrumentLabel: "Readiness Thinking Observation Guide Link:", description: <>Use the structured, workflow-based Readiness Thinking Observation Guide to identify challenges, strengths, and areas of uncertainty related to an organization’s motivation, innovation-specific capacity, and general capacity to implement a medical intervention innovation.</> },
-          { name: "Workflow Analysis", citation: "", referenceUrl: "https://doi.org/10.2196/18534", description: <>Use workflow analysis as a structured, real-time observational approach to understand how care is actually delivered in clinical settings by documenting tasks, interactions, communication patterns, and contextual conditions as they unfold. In the context of medical intervention innovation, it helps designers identify workflow bottlenecks, role responsibilities, environmental constraints, and other implementation friction points so they can refine an intervention to better fit the realities of practice before full-scale implementation.</> }
+          { name: "Readiness Thinking Observation Guide", citation: "4", referenceUrl: "https://doi.org/10.1177/15248399221080096", instrumentUrl: "https://dissemination-implementation.org/wp-content/uploads/2024/09/531c7f_dbd8360b53b146b6a4fbffcb321cacfd.pdf", instrumentLabel: "Readiness Thinking Observation Guide Link:", description: <>Use the structured, workflow-based Readiness Thinking Observation Guide to identify challenges, strengths, and areas of uncertainty related to an organization’s motivation, innovation-specific capacity, and general capacity to implement a medical intervention innovation. The link embedded in the strategy title will direct you to the original article in which this strategy was introduced or further developed.</> },
+          { name: "Workflow Analysis", citation: "", referenceUrl: "https://doi.org/10.2196/18534", description: <>Use workflow analysis as a structured, real-time observational approach to understand how care is actually delivered in clinical settings by documenting tasks, interactions, communication patterns, and contextual conditions as they unfold. In the context of medical intervention innovation, it helps designers identify workflow bottlenecks, role responsibilities, environmental constraints, and other implementation friction points so they can refine an intervention to better fit the realities of practice before full-scale implementation. The link embedded in the strategy title will direct you to the original article in which this strategy was introduced or further developed.</> }
         ]
       },
       {
@@ -121,7 +121,7 @@
         interestHolders: [
           "Technical experts (i.e., those who can assess the technical feasibility of the intervention)",
           "Subject matter experts (i.e., those who have experience working to implement similar types of interventions)",
-          "Future implementers of the intervention (i.e., those who will support eventual implementation)",
+          "Future implementers of the intervention (i.e., those who may help put the intervention into practice and support its use in the real world)",
           "Future users of the intervention (e.g., health care professionals)",
           "Future beneficiaries of the intervention (e.g., patients)"
         ],
@@ -148,7 +148,7 @@
         interviewCitation: "1–3",
         interestHolders: [
           "Subject matter experts (i.e., those who have experience working to implement similar types of interventions)",
-          "Future implementers of the intervention (i.e., those who will support eventual implementation)",
+          "Future implementers of the intervention (i.e., those who may help put the intervention into practice and support its use in the real world)",
           "Future users of the intervention (e.g., health care professionals)",
           "Future beneficiaries of the intervention (e.g., patients)"
         ],
@@ -408,6 +408,16 @@
       );
     };
 
+    const ReferenceReminder = () => (
+  <div className="mt-6 mb-2 print:hidden">
+    <div className="rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-3">
+      <p className="text-sm text-indigo-800">
+        All references are available at the end of the Complete Framework tab.
+      </p>
+    </div>
+  </div>
+);
+    
     const App = () => {
       const [selectedOutcomes, setSelectedOutcomes] = useState([]);
       const [view, setView] = useState("selection");
@@ -602,7 +612,7 @@
               <button disabled={selectedOutcomes.length === 0} onClick={() => setView("complete")} className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-bold transition-all min-w-[150px] ${view === "complete" ? "bg-indigo-600 text-white shadow-md" : "text-gray-500 hover:bg-gray-100 disabled:opacity-30"}`}><Icon name="layers-3" size={18} /> 4. Complete Framework</button>
             </div>
             <main className="mb-32">{view === "selection" && <SelectionView />}{view === "stakeholders" && <StakeholderView />}{view === "strategies" && <EvaluationStrategiesView />}{view === "complete" && <CompleteFrameworkView />}</main>
-            <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-gray-200 flex justify-center z-20 print:hidden"><div className="max-w-5xl w-full flex justify-between items-center"><div className="hidden md:block"><p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Full-Framework Integrated (V4.0) All references are available at the end of the Complete Framework tab.</p></div><div className="flex gap-4 w-full md:w-auto">{view !== "selection" && (<button onClick={() => setView(view === "complete" ? "strategies" : view === "strategies" ? "stakeholders" : "selection")} className="flex-1 md:flex-none border border-gray-300 text-gray-700 px-6 py-2 rounded-full font-bold hover:bg-gray-50 transition-colors">Back</button>)}{view !== "complete" && (<button disabled={selectedOutcomes.length === 0} onClick={() => setView(view === "selection" ? "stakeholders" : view === "stakeholders" ? "strategies" : "complete")} className="flex-1 md:flex-none bg-indigo-600 text-white px-8 py-2 rounded-full flex items-center justify-center gap-2 font-bold disabled:opacity-50 transition-all hover:bg-indigo-700 shadow-lg shadow-indigo-200">{view === "selection" ? "Review Interest-Holders" : view === "stakeholders" ? "Review Evaluation Strategies" : "Generate Complete Framework"} <Icon name="chevron-right" size={18} /></button>)}</div></div></footer>
+            <footer className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-gray-200 flex justify-center z-20 print:hidden"><div className="max-w-5xl w-full flex justify-between items-center"><div className="hidden md:block"><p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Full-Framework Integrated (V4.0) </p></div><div className="flex gap-4 w-full md:w-auto">{view !== "selection" && (<button onClick={() => setView(view === "complete" ? "strategies" : view === "strategies" ? "stakeholders" : "selection")} className="flex-1 md:flex-none border border-gray-300 text-gray-700 px-6 py-2 rounded-full font-bold hover:bg-gray-50 transition-colors">Back</button>)}{view !== "complete" && (<button disabled={selectedOutcomes.length === 0} onClick={() => setView(view === "selection" ? "stakeholders" : view === "stakeholders" ? "strategies" : "complete")} className="flex-1 md:flex-none bg-indigo-600 text-white px-8 py-2 rounded-full flex items-center justify-center gap-2 font-bold disabled:opacity-50 transition-all hover:bg-indigo-700 shadow-lg shadow-indigo-200">{view === "selection" ? "Review Interest-Holders" : view === "stakeholders" ? "Review Evaluation Strategies" : "Generate Complete Framework"} <Icon name="chevron-right" size={18} /></button>)}</div></div></footer>
           </div>
         </div>
       );
