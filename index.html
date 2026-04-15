@@ -807,3 +807,101 @@
           </section>
         </div>
       );
+
+
+      const tabs = [
+        { id: "selection", label: "Implementation Outcomes", icon: "layout-grid" },
+        { id: "stakeholders", label: "Interest-Holders", icon: "users" },
+        { id: "strategies", label: "Evaluation Strategies", icon: "clipboard-list" },
+        { id: "complete", label: "Complete Framework", icon: "book-open" },
+      ];
+
+      const renderCurrentView = () => {
+        if (view === "selection") return <SelectionView />;
+        if (view === "stakeholders") return selectedOutcomes.length > 0 ? <StakeholderView /> : <SelectionView />;
+        if (view === "strategies") return selectedOutcomes.length > 0 ? <EvaluationStrategiesView /> : <SelectionView />;
+        if (view === "complete") return selectedOutcomes.length > 0 ? <CompleteFrameworkView /> : <SelectionView />;
+        return <SelectionView />;
+      };
+
+      return (
+        <div className="min-h-screen">
+          <div className="max-w-6xl mx-auto px-4 py-6 md:px-6 md:py-8">
+            <div className="mb-6">
+              <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.22em] text-indigo-600 mb-2">Mid-Design Evaluation Tool</p>
+                  <h1 className="text-3xl md:text-4xl font-black tracking-tight text-gray-900">Mid-Design Evaluation Framework</h1>
+                  <p className="text-sm md:text-base text-gray-600 mt-2 max-w-3xl">
+                    Select implementation outcomes, then review relevant interest-holders and qualitative and quantitative evaluation strategies.
+                  </p>
+                </div>
+                <div className="bg-white border border-gray-200 rounded-xl px-4 py-3 shadow-sm">
+                  <p className="text-[11px] uppercase tracking-wider font-bold text-gray-500">Selected implementation outcomes</p>
+                  <p className="text-2xl font-black text-gray-900 leading-none mt-1">{selectedOutcomes.length}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="sticky top-0 z-20 bg-gray-50/95 backdrop-blur border border-gray-200 rounded-2xl p-2 shadow-sm mb-6 print:hidden">
+              <div className="flex flex-wrap gap-2">
+                {tabs.map((tab) => {
+                  const disabled = tab.id !== "selection" && selectedOutcomes.length === 0;
+                  const active = view === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => !disabled && setView(tab.id)}
+                      className={[
+                        "px-4 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 transition",
+                        active ? "bg-indigo-600 text-white shadow-sm" : "bg-white text-gray-700 border border-gray-200",
+                        disabled ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-100"
+                      ].join(" ")}
+                    >
+                      <Icon name={tab.icon} size={16} className={active ? "text-white" : "text-gray-500"} />
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {selectedOutcomes.length > 0 && (
+              <div className="mb-5 print:hidden bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="text-sm font-semibold text-gray-700 mr-1">Current selection:</p>
+                  {getSelectedData.map((outcome) => {
+                    const tone = colorStyles[outcome.type];
+                    return (
+                      <span key={outcome.id} className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-bold ${tone.pill}`}>
+                        <span className={`w-2 h-2 rounded-full ${tone.solid}`}></span>
+                        {outcome.title}
+                      </span>
+                    );
+                  })}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedOutcomes([]);
+                      setView("selection");
+                    }}
+                    className="ml-auto text-sm font-semibold text-red-600 hover:text-red-700"
+                  >
+                    Clear selection
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {renderCurrentView()}
+          </div>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
