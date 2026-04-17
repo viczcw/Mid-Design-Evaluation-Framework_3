@@ -633,7 +633,7 @@
 
       const EvaluationStrategiesView = () => (
         <div className="space-y-8 animate-in">
-          <div><h2 className="text-2xl font-bold">Evaluation Strategies</h2><p className="text-gray-600">Both qualitative and quantitative evaluation strategies are introduced in this framework because implementation outcomes are complex and cannot be fully understood through a single method alone. To support more informed design decisions, the framework suggests teams examine implementation outcomes using mixed methods. Qualitative strategies help designers gather rich, contextual insights into stakeholder experiences, perspectives, workflows, barriers, facilitators, local conditions, etc. that may shape implementation in practice. These strategies are particularly useful when teams need to understand how and why an implementation-related challenge or facilitators may arise. Quantitative strategies, in contrast, help designers generate structured and measurable evidence, such as ratings, scale scores, frequencies, or other indicators that can be used to assess patterns across respondents, settings, or outcomes. These strategies are especially useful when teams want to compare responses, identify trends, or evaluate the extent to which an implementation-related condition is present. Used together, qualitative and quantitative strategies can help designers build a more comprehensive understanding of implementation by linking measurable patterns with the contextual factors that help explain them. In this way, the framework is intended to support designers in selecting and applying evaluation strategies that are responsive to both the complexity of implementation and the practical demands of real-world design contexts. <Sup>25</Sup></p></div>
+          <div><h2 className="text-2xl font-bold">Evaluation Strategies</h2><p className="text-gray-600">Both <strong>qualitative</strong> and <strong>quantitative</strong> strategies are introduced in this framework because implementation outcomes are complex and cannot be fully understood through a single method alone. To support more informed design decisions, the framework suggests teams examine implementation outcomes using mixed methods. Qualitative strategies help designers gather rich, contextual insights into stakeholder experiences, perspectives, workflows, barriers, facilitators, local conditions, etc. that may shape implementation in practice. These strategies are particularly useful when teams need to understand how and why an implementation-related challenge or facilitators may arise. Quantitative strategies, in contrast, help designers generate structured and measurable evidence, such as ratings, scale scores, frequencies, or other indicators that can be used to assess patterns across respondents, settings, or outcomes. These strategies are especially useful when teams want to compare responses, identify trends, or evaluate the extent to which an implementation-related condition is present. Used together, qualitative and quantitative strategies can help designers build a more comprehensive understanding of implementation by linking measurable patterns with the contextual factors that help explain them. In this way, the framework is intended to support designers in selecting and applying evaluation strategies that are responsive to both the complexity of implementation and the practical demands of real-world design contexts. <Sup>25</Sup></p></div>
           {getSelectedData.map((outcome) => {
             const tone = colorStyles[outcome.type];
             return (
@@ -735,6 +735,22 @@
                 </h3>
                 <p className="text-slate-700 leading-relaxed">
                   Outcomes related to how implementation is carried out and maintained. These can be used as exploratory considerations during mid-design. <Sup>1,2</Sup>
+                </p>
+              </div>
+            </div>
+                        <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 mt-4">
+              <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+                <p>
+                  <span className="font-semibold text-gray-900">Evaluation strategy introduction</span> Both <strong>qualitative</strong> and <strong>quantitative</strong> evaluation strategies are introduced in this framework because implementation outcomes are complex and cannot be fully understood through a single method alone. To support more informed design decisions, the framework suggests teams examine implementation outcomes using mixed methods.
+                </p>
+                <p>
+                  Qualitative strategies help designers gather rich, contextual insights into stakeholder experiences, perspectives, workflows, barriers, facilitators, local conditions, and other factors that may shape implementation in practice. These strategies are particularly useful when teams need to understand how and why an implementation-related challenge or facilitator may arise.
+                </p>
+                <p>
+                  Quantitative strategies, in contrast, help designers generate structured and measurable evidence, such as ratings, scale scores, frequencies, or other indicators that can be used to assess patterns across respondents, settings, or outcomes. These strategies are especially useful when teams want to compare responses, identify trends, or evaluate the extent to which an implementation-related condition is present.
+                </p>
+                <p>
+                  Used together, qualitative and quantitative strategies can help designers build a more comprehensive understanding of implementation by linking measurable patterns with the contextual factors that help explain them. In this way, the framework is intended to support designers in selecting and applying evaluation strategies that are responsive to both the complexity of implementation and the practical demands of real-world design contexts. <Sup>25</Sup>
                 </p>
               </div>
             </div>
