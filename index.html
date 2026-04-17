@@ -617,7 +617,7 @@
 
         return (
           <div className="space-y-6 animate-in">
-            <div><h2 className="text-2xl font-bold">Interest-Holders Required to Evaluate</h2><p className="text-gray-600">Choose how to view interest-holder guidance: by implementation outcome, by interest-holder group, or both.</p></div>
+            <div><h2 className="text-2xl font-bold">Interest-Holders Required to Evaluate</h2><p className="text-gray-600"> Choose how to view interest-holder guidance: by implementation outcome, by interest-holder group, or both.</p></div>
             <div className="bg-white rounded-xl border border-gray-200 p-3 shadow-sm">
               <div className="flex flex-wrap gap-2">
                 {[["byOutcome", "By implementation outcome"], ["byStakeholder", "By interest-holder group"], ["both", "Both"]].map(([value, label]) => (
@@ -633,7 +633,7 @@
 
       const EvaluationStrategiesView = () => (
         <div className="space-y-8 animate-in">
-          <div><h2 className="text-2xl font-bold">Evaluation Strategies</h2><p className="text-gray-600">Both <strong>qualitative</strong> and <strong>quantitative</strong> strategies are introduced in this framework because implementation outcomes are complex and cannot be fully understood through a single method alone. <strong>Qualitative</strong> strategies help designers understand stakeholder experiences, perspectives, workflows, barriers, facilitators, and local conditions, making them especially useful for explaining <strong>how and why</strong> implementation-related challenges or facilitators arise. <strong>Quantitative</strong> strategies generate structured, measurable evidence, such as ratings, scale scores, and frequencies, which are useful for identifying patterns, comparing responses, and assessing the extent to which an implementation-related condition is present. <strong>Together, these strategies support a more comprehensive understanding of implementation</strong> by linking measurable patterns with the contextual factors that help explain them, enabling designers to make more informed decisions in real-world design contexts. <Sup>25</Sup></p></div>
+          <div><h2 className="text-2xl font-bold">Evaluation Strategies</h2><p className="text-gray-500">Both <strong>qualitative</strong> and <strong>quantitative</strong> strategies are introduced in this framework because implementation outcomes are complex and cannot be fully understood through a single method alone. <strong>Qualitative</strong> strategies help designers understand stakeholder experiences, perspectives, workflows, barriers, facilitators, and local conditions, making them especially useful for explaining <strong>how and why</strong> implementation-related challenges or facilitators arise. <strong>Quantitative</strong> strategies generate structured, measurable evidence, such as ratings, scale scores, and frequencies, which are useful for identifying patterns, comparing responses, and assessing the extent to which an implementation-related condition is present. <strong>Together, these strategies support a more comprehensive understanding of implementation</strong> by linking measurable patterns with the contextual factors that help explain them, enabling designers to make more informed decisions in real-world design contexts. <Sup>25</Sup></p></div>
           {getSelectedData.map((outcome) => {
             const tone = colorStyles[outcome.type];
             return (
@@ -738,7 +738,7 @@
                         <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 mt-4">
               <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
                 <p>
-                  <span className="font-semibold text-gray-900">Both qualitative and quantitative evaluation strategies</span> are introduced in this framework because implementation outcomes are complex and cannot be fully understood through a single method alone. <strong>Qualitative</strong> strategies help designers understand stakeholder experiences, perspectives, workflows, barriers, facilitators, and local conditions, making them especially useful for explaining <strong>how and why</strong> implementation-related challenges or facilitators arise. <strong>Quantitative</strong> strategies generate structured, measurable evidence, such as ratings, scale scores, and frequencies, which are useful for identifying patterns, comparing responses, and assessing the extent to which an implementation-related condition is present. <strong>Together, these strategies support a more comprehensive understanding of implementation</strong> by linking measurable patterns with the contextual factors that help explain them, enabling designers to make more informed decisions in real-world design contexts.
+                  <span className="font-semibold text-gray-500">Both qualitative and quantitative evaluation strategies</span> are introduced in this framework because implementation outcomes are complex and cannot be fully understood through a single method alone. <strong>Qualitative</strong> strategies help designers understand stakeholder experiences, perspectives, workflows, barriers, facilitators, and local conditions, making them especially useful for explaining <strong>how and why</strong> implementation-related challenges or facilitators arise. <strong>Quantitative</strong> strategies generate structured, measurable evidence, such as ratings, scale scores, and frequencies, which are useful for identifying patterns, comparing responses, and assessing the extent to which an implementation-related condition is present. <strong>Together, these strategies support a more comprehensive understanding of implementation</strong> by linking measurable patterns with the contextual factors that help explain them, enabling designers to make more informed decisions in real-world design contexts.
                 </p>
               </div>
             </div>
@@ -845,7 +845,7 @@
               <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.22em] text-indigo-600 mb-2">
-                    Mid-Design Evaluation Tool
+                    @Chuwen Zheng
                   </p>
                   <h1 className="text-3xl md:text-4xl font-black tracking-tight text-gray-900">
                     Mid-Design Evaluation Framework
