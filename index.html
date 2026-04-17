@@ -44,21 +44,22 @@
     const { useEffect, useMemo, useRef, useState } = React;
 
     const Icon = ({ name, size = 18, className = "" }) => {
-      const ref = useRef(null);
+      const iconSvg =
+        window.lucide && lucide.icons && lucide.icons[name]
+          ? lucide.icons[name].toSvg({
+              width: size,
+              height: size,
+              class: className,
+            })
+          : "";
 
-      useEffect(() => {
-        if (ref.current && window.lucide && lucide.icons && lucide.icons[name]) {
-          ref.current.innerHTML = lucide.icons[name].toSvg({
-            width: size,
-            height: size,
-            class: className
-          });
-        } else if (ref.current) {
-          ref.current.innerHTML = "";
-        }
-      }, [name, size, className]);
-
-      return <span ref={ref} className="inline-flex" aria-hidden="true"></span>;
+      return (
+        <span
+          className="inline-flex"
+          aria-hidden="true"
+          dangerouslySetInnerHTML={{ __html: iconSvg }}
+        />
+      );
     };
 
     const Sup = ({ children }) => <sup>{children}</sup>;
