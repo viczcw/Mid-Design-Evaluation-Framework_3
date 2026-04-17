@@ -647,9 +647,6 @@
                         <div className="space-y-3">{outcome.topics.map((topic, i) => <TopicAccordion key={i} topic={topic} />)}</div>
                       </div>
                       {outcome.qualitativeStrategies.length > 0 && outcome.qualitativeStrategies.map((item, i) => <StrategyAccordion key={i} item={item} color="indigo" />)}
-                      {outcome.qualitativeStrategies.length === 0 && (
-                        <div className="rounded-xl border border-dashed border-gray-200 p-4 text-sm text-gray-500 bg-gray-50">No additional qualitative strategies listed beyond the semi-structured interview block.</div>
-                      )}
                     </div>
                   </div>
                   <div className="md:col-span-1 border-l border-gray-100 pl-0 md:pl-5">
