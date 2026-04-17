@@ -8,7 +8,7 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.511.0/dist/umd/lucide.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
     body { font-family: 'Inter', sans-serif; }
@@ -45,12 +45,20 @@
 
     const Icon = ({ name, size = 18, className = "" }) => {
       const ref = useRef(null);
+
       useEffect(() => {
-        if (ref.current) {
-          lucide.createIcons({ targets: [ref.current] });
+        if (ref.current && window.lucide && lucide.icons && lucide.icons[name]) {
+          ref.current.innerHTML = lucide.icons[name].toSvg({
+            width: size,
+            height: size,
+            class: className
+          });
+        } else if (ref.current) {
+          ref.current.innerHTML = "";
         }
-      }, [name]);
-      return <i ref={ref} data-lucide={name} style={{ width: size, height: size }} className={`inline-block ${className}`}></i>;
+      }, [name, size, className]);
+
+      return <span ref={ref} className="inline-flex" aria-hidden="true"></span>;
     };
 
     const Sup = ({ children }) => <sup>{children}</sup>;
@@ -522,7 +530,7 @@
             <h3 className="font-bold text-lg">{outcome.title}</h3>
             {selectedOutcomes.includes(outcome.id) && (
               <Icon
-                name="check-circle-2"
+                name="circle-check"
                 size={20}
                 className={
                   outcome.type === "design"
