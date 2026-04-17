@@ -80,6 +80,7 @@
       "Feldstein AC, Glasgow RE. A Practical, Robust Implementation and Sustainability Model (PRISM) for Integrating Research Findings into Practice. Jt Comm J Qual Patient Saf. 2008;34(4):228-243. doi:10.1016/S1553-7250(08)34030-6",
       "Carrion, A. J., Miles, J. D., Thompson, M. D., Journee, B., & Nelson, E. (2021). Program Evaluation Through the Use of Logic Models. Currents in Pharmacy Teaching and Learning, 13(7), 789–795. https://doi.org/10.1016/j.cptl.2021.03.006",
       "Savaya, R., & Waysman, M. (2005). The Logic Model: A Tool for Incorporating Theory in Development and Evaluation of Programs. Administration in Social Work, 29(2), 85–103. https://doi.org/10.1300/J147v29n02_06"
+      "Green, C. A., Duan, N., Gibbons, R. D., Hoagwood, K. E., Palinkas, L. A., & Wisdom, J. P. (2015). Approaches to Mixed Methods Dissemination and Implementation Research: Methods, Strengths, Caveats, and Opportunities. Administration and Policy in Mental Health and Mental Health Services Research, 42(5), 508–523. https://doi.org/10.1007/s10488-014-0552-6"
     ];
 
     const FRAMEWORK_DATA = [
@@ -623,7 +624,7 @@
 
       const EvaluationStrategiesView = () => (
         <div className="space-y-8 animate-in">
-          <div><h2 className="text-2xl font-bold">Evaluation Strategies</h2><p className="text-gray-600">Evaluation strategies for medical innovations organized by methodology. <Sup>1</Sup></p></div>
+          <div><h2 className="text-2xl font-bold">Evaluation Strategies</h2><p className="text-gray-600">Both qualitative and quantitative evaluation strategies are introduced in this framework because implementation outcomes are complex and cannot be fully understood through a single method alone. To support more informed design decisions, the framework suggests teams examine implementation outcomes using mixed methods. Qualitative strategies help designers gather rich, contextual insights into stakeholder experiences, perspectives, workflows, barriers, facilitators, local conditions, etc. that may shape implementation in practice. These strategies are particularly useful when teams need to understand how and why an implementation-related challenge or facilitators may arise. Quantitative strategies, in contrast, help designers generate structured and measurable evidence, such as ratings, scale scores, frequencies, or other indicators that can be used to assess patterns across respondents, settings, or outcomes. These strategies are especially useful when teams want to compare responses, identify trends, or evaluate the extent to which an implementation-related condition is present. Used together, qualitative and quantitative strategies can help designers build a more comprehensive understanding of implementation by linking measurable patterns with the contextual factors that help explain them. In this way, the framework is intended to support designers in selecting and applying evaluation strategies that are responsive to both the complexity of implementation and the practical demands of real-world design contexts. <Sup>25</Sup></p></div>
           {getSelectedData.map((outcome) => {
             const tone = colorStyles[outcome.type];
             return (
