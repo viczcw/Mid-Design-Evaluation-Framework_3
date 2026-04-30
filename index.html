@@ -608,7 +608,7 @@
     );
 
     const EvaluationStrategiesIntro = () => (
-      <div className="text-sm text-gray-700 leading-relaxed">
+      <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 leading-relaxed">
         <p>
           <span className="font-semibold text-gray-900">Evaluation strategies</span> should usually use mixed methods. Qualitative strategies explain context, experience, and how or why implementation may work. Quantitative strategies measure patterns, extent, and variation.
         </p>
@@ -675,16 +675,20 @@
               To navigate the framework, select whichever implementation outcomes you are most interested in exploring. For reviewers who would like to examine the framework content more comprehensively, we suggest selecting all eight implementation outcomes to view the full set of framework content.
             </p>
 
-            <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 mb-4">
-              <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+            <div className="space-y-3 mb-4">
+              <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 leading-relaxed">
                 <p>
                   <span className="font-semibold text-gray-900">Implementation outcomes</span> are “defined as the effects of deliberate and purposive actions to implement new treatments, practices, and services.” These outcomes matter because they serve as indicators of implementation success, provide early signals of how the implementation process is unfolding, and act as necessary conditions for later desired impacts to occur.<Sup>1</Sup>
                 </p>
+              </div>
+
+              <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 leading-relaxed">
                 <p>
                   <span className="font-semibold text-gray-900">Interest-holders</span> are the people or groups whose perspectives, experiences, or responsibilities are important for understanding those implementation outcomes. They may include future users, patients, implementers, decision-makers, or other groups who would interact with, support, approve, or be affected by the innovation.
                 </p>
-                <EvaluationStrategiesIntro />
               </div>
+
+              <EvaluationStrategiesIntro />
             </div>
 
             <div className="grid md:grid-cols-3 gap-6 text-sm">
