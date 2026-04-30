@@ -607,20 +607,63 @@
       </div>
     );
 
-    const EvaluationStrategiesIntro = () => (
-      <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 leading-relaxed">
-        <p>
-          <span className="font-semibold text-gray-900">Evaluation strategies</span> should usually use mixed methods. Qualitative strategies explain context, experience, and how or why implementation may work. Quantitative strategies measure patterns, extent, and variation.
+    const EvaluationStrategiesIntro = ({ boxed = true }) => {
+      const content = (
+        <>
+          <p>
+            <span className="font-semibold text-gray-900">Evaluation strategies</span> should usually use mixed methods. Qualitative strategies explain context, experience, and how or why implementation may work. Quantitative strategies measure patterns, extent, and variation.
+          </p>
+          <div className="grid md:grid-cols-3 gap-2 mt-2 text-[12px]">
+            <div className="rounded-lg border border-gray-200 bg-white p-2"><strong>Structure:</strong> Collect data sequentially or simultaneously, and decide whether qualitative, quantitative, or both methods should have priority.</div>
+            <div className="rounded-lg border border-gray-200 bg-white p-2"><strong>Function:</strong> Use both qualitative and quantitative methods to triangulate, complement, explain, develop, or sample.</div>
+            <div className="rounded-lg border border-gray-200 bg-white p-2"><strong>Integration:</strong> Bring evidence together by merging, connecting, or embedding qualitative and quantitative data.</div>
+          </div>
+          <p className="mt-2 text-[12px] text-gray-600">
+            The goal is to use mixed methods to bridge interest-holder perspectives with implementation context. <Sup>2–4</Sup>
+          </p>
+        </>
+      );
+      if (!boxed) return <div className="mt-4">{content}</div>;
+      return <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 leading-relaxed">{content}</div>;
+    };
+
+    const FrameworkInstructions = () => (
+      <>
+        <h2 className="text-gray-900 font-bold flex items-center gap-2 mb-4">
+          <Icon name="info" size={18} className="text-blue-600" /> Framework Instructions
+        </h2>
+        <p className="text-sm text-gray-600 mb-4 leading-relaxed">
+          This Mid-Design Implementation Evaluation Framework is a structured decision-support tool developed to assess key implementation outcomes of medical innovations before full-scale implementation.
         </p>
-        <div className="grid md:grid-cols-3 gap-2 mt-2 text-[12px]">
-          <div className="rounded-lg border border-gray-200 bg-white p-2"><strong>Structure:</strong> Collect data sequentially or simultaneously, and decide whether qualitative, quantitative, or both methods should have priority.</div>
-          <div className="rounded-lg border border-gray-200 bg-white p-2"><strong>Function:</strong> Use both qualitative and quantitative methods to triangulate, complement, explain, develop, or sample.</div>
-          <div className="rounded-lg border border-gray-200 bg-white p-2"><strong>Integration:</strong> Bring evidence together by merging, connecting, or embedding qualitative and quantitative data.</div>
+        <p className="text-sm text-gray-600 mb-4 leading-relaxed italic">
+          To navigate the framework, select whichever implementation outcomes you are most interested in exploring. For reviewers who would like to examine the framework content more comprehensively, we suggest selecting all eight implementation outcomes to view the full set of framework content.
+        </p>
+        <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 mb-4 text-sm text-gray-700 leading-relaxed">
+          <div className="space-y-4">
+            <p>
+              <span className="font-semibold text-gray-900">Implementation outcomes</span> are “defined as the effects of deliberate and purposive actions to implement new treatments, practices, and services.” These outcomes matter because they serve as indicators of implementation success, provide early signals of how the implementation process is unfolding, and act as necessary conditions for later desired impacts to occur.<Sup>1</Sup>
+            </p>
+            <p>
+              <span className="font-semibold text-gray-900">Interest-holders</span> are the people or groups whose perspectives, experiences, or responsibilities are important for understanding those implementation outcomes. They may include future users, patients, implementers, decision-makers, or other groups who would interact with, support, approve, or be affected by the innovation.
+            </p>
+            <EvaluationStrategiesIntro boxed={false} />
+          </div>
         </div>
-        <p className="mt-2 text-[12px] text-gray-600">
-          The goal is to use mixed methods to bridge interest-holder perspectives with implementation context. <Sup>2–4</Sup>
-        </p>
-      </div>
+        <div className="grid md:grid-cols-3 gap-6 text-sm">
+          <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-100">
+            <h3 className="font-bold text-emerald-800 flex items-center gap-1.5 mb-1"><div className="w-2 h-2 rounded-full bg-emerald-500" /> Design-Focused</h3>
+            <p className="text-emerald-700 leading-relaxed">Outcomes related to innovation design. These are <strong>directly measurable</strong> in mid-design evaluation.</p>
+          </div>
+          <div className="p-3 bg-purple-50 rounded-lg border border-purple-100">
+            <h3 className="font-bold text-purple-800 flex items-center gap-1.5 mb-1"><div className="w-2 h-2 rounded-full bg-purple-500" /> Transitionary</h3>
+            <p className="text-purple-700 leading-relaxed">Outcomes that bridge design and deployment by capturing readiness and early uptake conditions.</p>
+          </div>
+          <div className="p-3 bg-slate-100 rounded-lg border border-slate-200">
+            <h3 className="font-bold text-slate-800 flex items-center gap-1.5 mb-1"><div className="w-2 h-2 rounded-full bg-slate-500" /> Strategy-Focused</h3>
+            <p className="text-slate-700 leading-relaxed">Outcomes related to how implementation is carried out and maintained. These can be used as exploratory considerations during mid-design.</p>
+          </div>
+        </div>
+      </>
     );
 
     const InterviewStrategyIntro = ({ outcomeTitle }) => (
@@ -663,62 +706,7 @@
       const SelectionView = () => (
         <div className="space-y-4 animate-in">
           <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6">
-            <h2 className="text-gray-900 font-bold flex items-center gap-2 mb-4">
-              <Icon name="info" size={18} className="text-blue-600" /> Framework Instructions
-            </h2>
-
-            <p className="text-sm text-gray-600 mb-4 leading-relaxed">
-              This Mid-Design Implementation Evaluation Framework is a structured decision-support tool developed to assess key implementation outcomes of medical innovations before full-scale implementation.
-            </p>
-
-            <p className="text-sm text-gray-600 mb-4 leading-relaxed italic">
-              To navigate the framework, select whichever implementation outcomes you are most interested in exploring. For reviewers who would like to examine the framework content more comprehensively, we suggest selecting all eight implementation outcomes to view the full set of framework content.
-            </p>
-
-            <div className="space-y-3 mb-4">
-              <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 leading-relaxed">
-                <p>
-                  <span className="font-semibold text-gray-900">Implementation outcomes</span> are “defined as the effects of deliberate and purposive actions to implement new treatments, practices, and services.” These outcomes matter because they serve as indicators of implementation success, provide early signals of how the implementation process is unfolding, and act as necessary conditions for later desired impacts to occur.<Sup>1</Sup>
-                </p>
-              </div>
-
-              <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 leading-relaxed">
-                <p>
-                  <span className="font-semibold text-gray-900">Interest-holders</span> are the people or groups whose perspectives, experiences, or responsibilities are important for understanding those implementation outcomes. They may include future users, patients, implementers, decision-makers, or other groups who would interact with, support, approve, or be affected by the innovation.
-                </p>
-              </div>
-
-              <EvaluationStrategiesIntro />
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6 text-sm">
-              <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-100">
-                <h3 className="font-bold text-emerald-800 flex items-center gap-1.5 mb-1">
-                  <div className="w-2 h-2 rounded-full bg-emerald-500" /> Design-Focused
-                </h3>
-                <p className="text-emerald-700 leading-relaxed">
-                  Outcomes related to innovation design. These are <strong>directly measurable</strong> in mid-design evaluation.
-                </p>
-              </div>
-
-              <div className="p-3 bg-purple-50 rounded-lg border border-purple-100">
-                <h3 className="font-bold text-purple-800 flex items-center gap-1.5 mb-1">
-                  <div className="w-2 h-2 rounded-full bg-purple-500" /> Transitionary
-                </h3>
-                <p className="text-purple-700 leading-relaxed">
-                  Outcomes that bridge design and deployment by capturing readiness and early uptake conditions.
-                </p>
-              </div>
-
-              <div className="p-3 bg-slate-100 rounded-lg border border-slate-200">
-                <h3 className="font-bold text-slate-800 flex items-center gap-1.5 mb-1">
-                  <div className="w-2 h-2 rounded-full bg-slate-500" /> Strategy-Focused
-                </h3>
-                <p className="text-slate-700 leading-relaxed">
-                  Outcomes related to how implementation is carried out and maintained. These can be used as exploratory considerations during mid-design.
-                </p>
-              </div>
-            </div>
+            <FrameworkInstructions />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -893,58 +881,7 @@
           </div>
 
           <div className="print-page bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-            <h2 className="text-gray-900 font-bold flex items-center gap-2 mb-4">
-              <Icon name="info" size={18} className="text-blue-600" /> Framework Instructions
-            </h2>
-
-            <p className="text-sm text-gray-600 mb-4 leading-relaxed">
-              This Mid-Design Implementation Evaluation Framework is a structured decision-support tool developed to assess key implementation outcomes of medical innovations before full-scale implementation.
-            </p>
-
-            <div className="space-y-3 mb-4">
-              <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 leading-relaxed">
-                <p>
-                  <span className="font-semibold text-gray-900">Implementation outcomes</span> are “defined as the effects of deliberate and purposive actions to implement new treatments, practices, and services.” These outcomes matter because they serve as indicators of implementation success, provide early signals of how the implementation process is unfolding, and act as necessary conditions for later desired impacts to occur.<Sup>1</Sup>
-                </p>
-              </div>
-
-              <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 leading-relaxed">
-                <p>
-                  <span className="font-semibold text-gray-900">Interest-holders</span> are the people or groups whose perspectives, experiences, or responsibilities are important for understanding those implementation outcomes. They may include future users, patients, implementers, decision-makers, or other groups who would interact with, support, approve, or be affected by the innovation.
-                </p>
-              </div>
-
-              <EvaluationStrategiesIntro />
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6 text-sm">
-              <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-100">
-                <h3 className="font-bold text-emerald-800 flex items-center gap-1.5 mb-1">
-                  <div className="w-2 h-2 rounded-full bg-emerald-500" /> Design-Focused
-                </h3>
-                <p className="text-emerald-700 leading-relaxed">
-                  Outcomes related to innovation design. These are <strong>directly measurable</strong> in mid-design evaluation.
-                </p>
-              </div>
-
-              <div className="p-3 bg-purple-50 rounded-lg border border-purple-100">
-                <h3 className="font-bold text-purple-800 flex items-center gap-1.5 mb-1">
-                  <div className="w-2 h-2 rounded-full bg-purple-500" /> Transitionary
-                </h3>
-                <p className="text-purple-700 leading-relaxed">
-                  Outcomes that bridge design and deployment by capturing readiness and early uptake conditions.
-                </p>
-              </div>
-
-              <div className="p-3 bg-slate-100 rounded-lg border border-slate-200">
-                <h3 className="font-bold text-slate-800 flex items-center gap-1.5 mb-1">
-                  <div className="w-2 h-2 rounded-full bg-slate-500" /> Strategy-Focused
-                </h3>
-                <p className="text-slate-700 leading-relaxed">
-                  Outcomes related to how implementation is carried out and maintained. These can be used as exploratory considerations during mid-design. 
-                </p>
-              </div>
-            </div>
+            <FrameworkInstructions />
           </div>
 
           {getSelectedData.map((outcome) => {
