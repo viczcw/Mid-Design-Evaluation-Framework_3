@@ -54,39 +54,23 @@
         margin: 0.55in;
       }
 
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+
       html,
       body {
-        background: white !important;
-        color: black !important;
+        background: #f9fafb !important;
       }
 
       .print\:hidden {
         display: none !important;
       }
 
-      .screen-only {
-        display: none !important;
-      }
-
       .print-only {
-        display: block !important;
-      }
-
-      a {
-        color: black !important;
-        text-decoration: none !important;
-      }
-
-      .print-page {
-        min-height: calc(11in - 1.1in);
-        break-after: page;
-        page-break-after: always;
-        box-shadow: none !important;
-      }
-
-      .print-page:last-child {
-        break-after: auto;
-        page-break-after: auto;
+        display: none !important;
       }
 
       .sticky,
@@ -103,39 +87,9 @@
         max-width: 100% !important;
       }
 
-      .shadow-sm,
-      .shadow-md,
-      .shadow-lg {
-        box-shadow: none !important;
-      }
-
-      .bg-gray-50,
-      .bg-white\/80 {
-        background: white !important;
-      }
-
-      .border-gray-200,
-      .border-emerald-100,
-      .border-purple-100,
-      .border-slate-200 {
-        border-color: #d1d5db !important;
-      }
-
-      .text-gray-500,
-      .text-gray-600,
-      .text-gray-700,
-      .text-emerald-700,
-      .text-purple-700,
-      .text-blue-600,
-      .text-indigo-600 {
-        color: #374151 !important;
-      }
-
-      .bg-emerald-50,
-      .bg-purple-50,
-      .bg-slate-100,
-      .bg-indigo-50 {
-        background: #fff !important;
+      .print-page {
+        break-after: auto;
+        page-break-after: auto;
       }
     }
   </style>
